@@ -1,0 +1,165 @@
+.weather-section {
+    padding: 80px 60px;
+    background: linear-gradient(135deg, #042C53, #185FA5);
+}
+
+.section-header.light {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header.light h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #F1EFE8;
+    margin-bottom: 10px;
+}
+
+.section-header.light p {
+    color: #B5D4F4;
+    font-size: 1rem;
+}
+
+.provinces-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* FLIP CARD */
+.weather-card {
+    height: 180px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.weather-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* FRONT */
+.card-front {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    transition: background 0.3s;
+}
+
+.card-front:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-4px);
+}
+
+.province-icon {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.card-front h4 {
+    color: #F1EFE8;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.card-front p {
+    color: #B5D4F4;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+}
+
+.tap-hint {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* BACK */
+.card-back {
+    background: rgba(29, 158, 117, 0.2);
+    border: 1px solid rgba(29, 158, 117, 0.4);
+    backdrop-filter: blur(6px);
+    transform: rotateY(180deg);
+    gap: 4px;
+}
+
+.weather-icon-big {
+    font-size: 2rem;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.card-back h4 {
+    color: #F1EFE8;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.weather-city {
+    color: #B5D4F4;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.weather-temp {
+    color: #1D9E75;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 4px 0;
+}
+
+.weather-desc {
+    color: #F1EFE8;
+    font-size: 0.78rem;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.weather-details {
+    display: flex;
+    gap: 14px;
+    margin-top: 6px;
+}
+
+.weather-details span {
+    color: #B5D4F4;
+    font-size: 0.75rem;
+}
+
+.weather-loading {
+    color: #B5D4F4;
+    font-size: 0.9rem;
+}
+
+.weather-error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+}
