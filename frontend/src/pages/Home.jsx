@@ -174,7 +174,7 @@ const Home = () => {
                     <button className="cta-secondary">Learn More</button>
                 </div>
             </section>
-
+               <h1>ALOKAAA</h1>
         </div>
     );
 };
