@@ -1,0 +1,140 @@
+.report-page {
+    background-color: #F1EFE8;
+    min-height: 100vh;
+}
+
+.report-hero {
+    background: linear-gradient(135deg, #042C53, #185FA5);
+    padding: 70px 40px;
+    text-align: center;
+}
+
+.report-hero h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #F1EFE8;
+    margin-bottom: 14px;
+}
+
+.report-hero p {
+    font-size: 1.05rem;
+    color: #B5D4F4;
+}
+
+.dept-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+/* FLIP CARD */
+.dept-card {
+    height: 220px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.dept-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.dept-card:hover .dept-card-inner {
+    transform: rotateY(180deg);
+}
+
+.dept-front,
+.dept-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* FRONT */
+.dept-front {
+    background: white;
+    border-bottom: 4px solid var(--dept-color);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    transition: box-shadow 0.3s;
+}
+
+.dept-card:hover .dept-front {
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.dept-icon {
+    font-size: 2.8rem;
+    margin-bottom: 14px;
+}
+
+.dept-front h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #042C53;
+    margin: 0 0 10px 0;
+}
+
+.hover-hint {
+    font-size: 0.7rem;
+    color: #aaa;
+}
+
+/* BACK */
+.dept-back {
+    background: var(--dept-color);
+    transform: rotateY(180deg);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    justify-content: flex-start;
+    padding: 22px;
+}
+
+.dept-icon-sm {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.dept-back h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 10px 0;
+}
+
+.dept-back p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.6;
+    margin: 0 0 14px 0;
+    text-align: center;
+}
+
+.report-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-top: auto;
+    transition: background 0.3s;
+}
+
+.dept-card:hover .report-link {
+    background: rgba(255,255,255,0.2);
+}
