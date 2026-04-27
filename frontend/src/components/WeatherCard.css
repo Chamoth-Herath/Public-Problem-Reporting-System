@@ -30,7 +30,7 @@
 
 /* FLIP CARD */
 .weather-card {
-    height: 180px;
+    height: 260px;          /* ← was 180px, not enough for back content */
     perspective: 1000px;
     cursor: pointer;
 }
@@ -59,9 +59,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 20px 16px;
     text-align: center;
     box-sizing: border-box;
+    gap: 0;
 }
 
 /* FRONT */
@@ -70,6 +71,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
     transition: background 0.3s;
+    gap: 6px;
 }
 
 .card-front:hover {
@@ -78,8 +80,7 @@
 }
 
 .province-icon {
-    font-size: 2.2rem;
-    margin-bottom: 12px;
+    font-size: 2.4rem;
     display: block;
 }
 
@@ -87,18 +88,19 @@
     color: #F1EFE8;
     font-size: 1.05rem;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin: 0;
 }
 
 .card-front p {
     color: #B5D4F4;
     font-size: 0.8rem;
-    margin-bottom: 8px;
+    margin: 0;
 }
 
 .tap-hint {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: rgba(255, 255, 255, 0.4);
+    margin-top: 4px;
 }
 
 /* BACK */
@@ -107,13 +109,14 @@
     border: 1px solid rgba(29, 158, 117, 0.4);
     backdrop-filter: blur(6px);
     transform: rotateY(180deg);
-    gap: 4px;
+    justify-content: space-between;
+    padding: 18px 16px 14px;
 }
 
 .weather-icon-big {
     font-size: 2rem;
-    margin-bottom: 4px;
     display: block;
+    line-height: 1;
 }
 
 .card-back h4 {
@@ -121,19 +124,21 @@
     font-size: 0.95rem;
     font-weight: 700;
     margin: 0;
+    line-height: 1.2;
 }
 
 .weather-city {
     color: #B5D4F4;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     margin: 0;
 }
 
 .weather-temp {
     color: #1D9E75;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
-    margin: 4px 0;
+    margin: 0;
+    line-height: 1.1;
 }
 
 .weather-desc {
@@ -146,12 +151,17 @@
 .weather-details {
     display: flex;
     gap: 14px;
-    margin-top: 6px;
 }
 
 .weather-details span {
     color: #B5D4F4;
     font-size: 0.75rem;
+}
+
+.card-back .tap-hint {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 0;
 }
 
 .weather-loading {
@@ -162,4 +172,16 @@
 .weather-error {
     color: #e74c3c;
     font-size: 0.85rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .weather-section { padding: 52px 20px; }
+    .provinces-grid  { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .weather-card    { height: 240px; }
+}
+
+@media (max-width: 480px) {
+    .provinces-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .weather-card   { height: 220px; }
 }
