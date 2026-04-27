@@ -1,27 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap');
 
-<<<<<<< HEAD
-=======
 * {
     box-sizing: border-box;
 }
 
->>>>>>> 341ed2973c5840a1da28078cd41bca5a5a1771e9
 .navbar {
     background: linear-gradient(135deg, #042C53 0%, #1B5FA5 60%, #1D9E75 100%);
     padding: 0 48px;
     height: 70px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     position: relative;
     z-index: 1000;
     box-shadow: 0 2px 20px rgba(4, 44, 83, 0.4);
 }
 
-/* LEFT + RIGHT BALANCE */
 .navbar-left,
 .navbar-right {
     flex: 1;
@@ -29,14 +23,12 @@
     align-items: center;
 }
 
-/* CENTER SECTION */
 .navbar-center {
     flex: 1;
     display: flex;
     justify-content: center;
 }
 
-/* LOGO */
 .navbar-logo {
     display: flex;
     align-items: center;
@@ -65,7 +57,6 @@
     text-shadow: 0 1px 8px rgba(0,0,0,0.3);
 }
 
-/* NAV LINKS */
 .navbar-links {
     list-style: none;
     margin: 0;
@@ -112,23 +103,15 @@
 .navbar-right {
     flex: 1;
     display: flex;
-<<<<<<< HEAD
-    justify-content: flex-end; /* PUSH TO RIGHT */
-    align-items: center;
-    gap: 10px;
-}
-=======
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
 }
 
->>>>>>> 341ed2973c5840a1da28078cd41bca5a5a1771e9
 .navbar-right a {
     text-decoration: none;
 }
 
-/* SIGNUP BUTTON */
 .btn-signup {
     border: 1.5px solid rgba(181, 212, 244, 0.6) !important;
     background: transparent !important;
@@ -144,11 +127,8 @@
     color: #F1EFE8 !important;
 }
 
-.btn-signup::after {
-    display: none !important;
-}
+.btn-signup::after { display: none !important; }
 
-/* SIGNIN BUTTON */
 .btn-signin {
     background: #1D9E75 !important;
     color: #F1EFE8 !important;
@@ -165,15 +145,9 @@
     box-shadow: 0 4px 18px rgba(29, 158, 117, 0.5) !important;
 }
 
-.btn-signin::after {
-    display: none !important;
-<<<<<<< HEAD
-=======
-}
+.btn-signin::after { display: none !important; }
 
-/* ================================================
-   HAMBURGER BUTTON — hidden on desktop
-   ================================================ */
+/* ── HAMBURGER ─────────────────────────────────── */
 .navbar-hamburger {
     display: none;
     flex-direction: column;
@@ -190,9 +164,7 @@
     z-index: 1100;
 }
 
-.navbar-hamburger:hover {
-    background: rgba(255,255,255,0.1);
-}
+.navbar-hamburger:hover { background: rgba(255,255,255,0.1); }
 
 .navbar-hamburger .bar {
     display: block;
@@ -204,23 +176,11 @@
     transform-origin: center;
 }
 
-/* Animate hamburger → X when open */
-.navbar-hamburger.open .bar:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
+.navbar-hamburger.open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar-hamburger.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.navbar-hamburger.open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-.navbar-hamburger.open .bar:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0);
-}
-
-.navbar-hamburger.open .bar:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
-
-/* ================================================
-   MOBILE DRAWER OVERLAY
-   ================================================ */
+/* ── MOBILE OVERLAY ────────────────────────────── */
 .navbar-mobile-overlay {
     display: none;
     position: fixed;
@@ -232,13 +192,9 @@
     transition: opacity 0.3s ease;
 }
 
-.navbar-mobile-overlay.open {
-    opacity: 1;
-}
+.navbar-mobile-overlay.open { opacity: 1; }
 
-/* ================================================
-   MOBILE DRAWER MENU
-   ================================================ */
+/* ── MOBILE DRAWER ─────────────────────────────── */
 .navbar-mobile-menu {
     display: none;
     position: fixed;
@@ -256,11 +212,8 @@
     box-shadow: 4px 0 30px rgba(4, 44, 83, 0.6);
 }
 
-.navbar-mobile-menu.open {
-    transform: translateX(0);
-}
+.navbar-mobile-menu.open { transform: translateX(0); }
 
-/* Drawer header (logo repeat) */
 .mobile-menu-header {
     display: flex;
     align-items: center;
@@ -270,10 +223,7 @@
     height: 70px;
 }
 
-.mobile-menu-header .emblem-img {
-    width: 36px;
-    height: 36px;
-}
+.mobile-menu-header .emblem-img { width: 36px; height: 36px; }
 
 .mobile-menu-header span {
     font-family: 'Inter', sans-serif;
@@ -283,7 +233,6 @@
     letter-spacing: 0.06em;
 }
 
-/* Drawer nav links */
 .mobile-menu-links {
     list-style: none;
     margin: 0;
@@ -310,7 +259,6 @@
     border-left-color: #1D9E75;
 }
 
-/* Drawer auth buttons */
 .mobile-menu-auth {
     padding: 20px 24px;
     border-top: 1px solid rgba(181, 212, 244, 0.15);
@@ -320,9 +268,7 @@
     margin-top: auto;
 }
 
-.mobile-menu-auth a {
-    text-decoration: none;
-}
+.mobile-menu-auth a { text-decoration: none; }
 
 .mobile-menu-auth .btn-signup,
 .mobile-menu-auth .btn-signin {
@@ -336,51 +282,17 @@
     cursor: pointer !important;
 }
 
-/* ================================================
-   TABLET — up to 1024px
-   ================================================ */
+/* ── TABLET ≤1024px ────────────────────────────── */
 @media (max-width: 1024px) {
-    .navbar {
-        padding: 0 28px;
-    }
-
-    .navbar-links li a {
-        padding: 8px 10px;
-        font-size: 0.82rem;
-    }
+    .navbar { padding: 0 28px; }
+    .navbar-links li a { padding: 8px 10px; font-size: 0.82rem; }
 }
 
-/* ================================================
-   MOBILE — up to 768px
-   ================================================ */
+/* ── MOBILE ≤768px ─────────────────────────────── */
 @media (max-width: 768px) {
-
-    .navbar {
-        padding: 0 16px;
-        height: 64px;
-    }
-
-    /* Hide desktop nav sections */
-    .navbar-center,
-    .navbar-right {
-        display: none;
-    }
-
-    /* Show left (logo) + hamburger only */
-    .navbar-left {
-        flex: unset;
-    }
-
-    /* Show hamburger */
-    .navbar-hamburger {
-        display: flex;
-        margin-left: auto;
-    }
-
-    /* Show drawer + overlay when toggled via JS */
-    .navbar-mobile-menu,
-    .navbar-mobile-overlay {
-        display: block;
-    }
->>>>>>> 341ed2973c5840a1da28078cd41bca5a5a1771e9
+    .navbar { padding: 0 16px; height: 64px; }
+    .navbar-center, .navbar-right { display: none; }
+    .navbar-left { flex: unset; }
+    .navbar-hamburger { display: flex; margin-left: auto; }
+    .navbar-mobile-menu, .navbar-mobile-overlay { display: block; }
 }

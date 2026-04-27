@@ -1,53 +1,16 @@
-<<<<<<< HEAD
-import React from 'react';
-import { Link } from 'react-router-dom';
-=======
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
->>>>>>> 341ed2973c5840a1da28078cd41bca5a5a1771e9
 import emblem from '../assets/emblem.png';
 import './Navbar.css';
 
 const Navbar = () => {
-<<<<<<< HEAD
-    return (
-        <nav className="navbar">
-
-            {/* LEFT */}
-            <div className="navbar-left">
-                <div className="navbar-logo">
-                    <img src={emblem} alt="Sri Lanka Emblem" className="emblem-img" />
-                    <span>Public Problem Reporting System</span>
-                </div>
-            </div>
-
-            {/* CENTER */}
-            <div className="navbar-center">
-                <ul className="navbar-links">
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/about">About</Link></li>
-                    <li><Link to="/services">Services</Link></li>
-                    <li><Link to="/gallery">Gallery</Link></li>
-                </ul>
-            </div>
-
-            {/* RIGHT */}
-            <div className="navbar-right">
-                <Link to="/signup" className="btn-signup">Signup</Link>
-                <Link to="/signin" className="btn-signin">Signin</Link>
-            </div>
-
-        </nav>
-=======
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
 
-    // Close drawer on route change
     useEffect(() => {
         setMenuOpen(false);
     }, [location]);
 
-    // Close drawer on resize to desktop
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 768) setMenuOpen(false);
@@ -56,17 +19,14 @@ const Navbar = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Lock / unlock background scroll
     useEffect(() => {
         if (menuOpen) {
-            // Save current scroll position and lock
             const scrollY = window.scrollY;
             document.body.style.position   = 'fixed';
             document.body.style.top        = `-${scrollY}px`;
             document.body.style.width      = '100%';
-            document.body.style.overflowY  = 'scroll'; // keep scrollbar space
+            document.body.style.overflowY  = 'scroll';
         } else {
-            // Restore scroll position
             const scrollY = document.body.style.top;
             document.body.style.position  = '';
             document.body.style.top       = '';
@@ -91,7 +51,6 @@ const Navbar = () => {
         <>
             <nav className="navbar">
 
-                {/* LEFT — Logo */}
                 <div className="navbar-left">
                     <Link to="/" className="navbar-logo">
                         <img src={emblem} alt="Sri Lanka Emblem" className="emblem-img" />
@@ -99,7 +58,6 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                {/* CENTER — Desktop links */}
                 <div className="navbar-center">
                     <ul className="navbar-links">
                         <li><Link to="/">Home</Link></li>
@@ -109,13 +67,11 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                {/* RIGHT — Desktop auth buttons */}
                 <div className="navbar-right">
                     <Link to="/signup" className="btn-signup">Sign Up</Link>
                     <Link to="/signin" className="btn-signin">Sign In</Link>
                 </div>
 
-                {/* HAMBURGER — mobile only */}
                 <button
                     className={`navbar-hamburger ${menuOpen ? 'open' : ''}`}
                     onClick={toggleMenu}
@@ -129,7 +85,6 @@ const Navbar = () => {
 
             </nav>
 
-            {/* OVERLAY — only interactive when open */}
             <div
                 className={`navbar-mobile-overlay ${menuOpen ? 'open' : ''}`}
                 onClick={closeMenu}
@@ -137,7 +92,6 @@ const Navbar = () => {
                 style={{ pointerEvents: menuOpen ? 'auto' : 'none' }}
             />
 
-            {/* MOBILE DRAWER */}
             <div
                 className={`navbar-mobile-menu ${menuOpen ? 'open' : ''}`}
                 role="dialog"
@@ -162,7 +116,6 @@ const Navbar = () => {
                 </div>
             </div>
         </>
->>>>>>> 341ed2973c5840a1da28078cd41bca5a5a1771e9
     );
 };
 
