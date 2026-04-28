@@ -1,4 +1,5 @@
 import React from 'react';
+import DepartmentPage from './pages/DepartmentPage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -15,6 +16,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/departments" element={<Departments />} />
                     <Route path="/services" element={<Services />} />
+                    <Route path="/report/:dept" element={<DepartmentPage />} />
                 </Routes>
             </main>
             <Footer />
