@@ -8,7 +8,6 @@ import './DepartmentPage.css';
 const DEPT_DATA = {
   water: {
     key: 'water',
-    icon: '💧',
     title: 'National Water Supply & Drainage Board',
     shortTitle: 'Water Supply',
     tagline: 'Safe Water for Every Home',
@@ -35,7 +34,6 @@ const DEPT_DATA = {
   },
   electricity: {
     key: 'electricity',
-    icon: '⚡',
     title: 'Ceylon Electricity Board',
     shortTitle: 'Electricity',
     tagline: 'Powering the Nation Forward',
@@ -62,7 +60,6 @@ const DEPT_DATA = {
   },
   garbage: {
     key: 'garbage',
-    icon: '🗑️',
     title: 'Local Municipal Council – Sanitation',
     shortTitle: 'Garbage & Sanitation',
     tagline: 'Clean Cities, Healthy Lives',
@@ -89,7 +86,6 @@ const DEPT_DATA = {
   },
   health: {
     key: 'health',
-    icon: '🏥',
     title: 'Ministry of Health',
     shortTitle: 'Health',
     tagline: 'A Healthier Sri Lanka for All',
@@ -116,7 +112,6 @@ const DEPT_DATA = {
   },
   police: {
     key: 'police',
-    icon: '👮',
     title: 'Sri Lanka Police',
     shortTitle: 'Police',
     tagline: 'Serving & Protecting Every Citizen',
@@ -143,7 +138,6 @@ const DEPT_DATA = {
   },
   agriculture: {
     key: 'agriculture',
-    icon: '🌾',
     title: 'Ministry of Agriculture',
     shortTitle: 'Agriculture',
     tagline: 'Growing a Prosperous Nation',
@@ -170,7 +164,6 @@ const DEPT_DATA = {
   },
   education: {
     key: 'education',
-    icon: '🎓',
     title: 'Ministry of Education',
     shortTitle: 'Education',
     tagline: 'Knowledge Builds the Future',
@@ -197,7 +190,6 @@ const DEPT_DATA = {
   },
   roads: {
     key: 'roads',
-    icon: '🛣️',
     title: 'Road Development Authority',
     shortTitle: 'Roads & Highways',
     tagline: 'Connecting Communities Across Sri Lanka',
@@ -224,7 +216,6 @@ const DEPT_DATA = {
   },
   environment: {
     key: 'environment',
-    icon: '🌿',
     title: 'Central Environmental Authority',
     shortTitle: 'Environment',
     tagline: 'Protecting Nature, Sustaining Life',
@@ -251,7 +242,6 @@ const DEPT_DATA = {
   },
   transport: {
     key: 'transport',
-    icon: '🚌',
     title: 'National Transport Commission',
     shortTitle: 'Transport',
     tagline: 'Moving Sri Lanka, Every Day',
@@ -278,7 +268,6 @@ const DEPT_DATA = {
   },
   municipal: {
     key: 'municipal',
-    icon: '🏛️',
     title: 'Municipal Council',
     shortTitle: 'Municipal Council',
     tagline: 'Governance at the Heart of Your Community',
@@ -305,7 +294,6 @@ const DEPT_DATA = {
   },
   labour: {
     key: 'labour',
-    icon: '💼',
     title: 'Department of Labour',
     shortTitle: 'Labour & Employment',
     tagline: 'Protecting Workers\' Rights Nationwide',
