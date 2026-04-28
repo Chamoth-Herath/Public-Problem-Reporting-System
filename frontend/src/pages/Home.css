@@ -22,16 +22,14 @@
 ══════════════════════════════════════════════════════════════ */
 .hero {
     position: relative;
-    min-height: 90svh;           /* svh = safe on mobile (avoids URL-bar jump) */
+    min-height: 90svh;
     background: linear-gradient(135deg, #042C53 0%, #185FA5 60%, #1D9E75 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    /* NO overflow:hidden — it blocked pointer events on children */
     padding: 80px 24px 60px;
 }
 
-/* decorative circles — clip only visually via clip-path so no overflow */
 .hero::before {
     content: '';
     position: absolute;
@@ -64,7 +62,7 @@
 }
 
 .hero-content h1 {
-    font-size: clamp(1.8rem, 5vw, 3rem);   /* fluid — never too big or small */
+    font-size: clamp(1.8rem, 5vw, 3rem);
     font-weight: 800;
     color: #F1EFE8;
     line-height: 1.2;
@@ -84,13 +82,13 @@
     max-width: 480px;
     margin: 0 auto 28px;
     border-radius: 10px;
-    overflow: hidden;           /* rounds both children */
+    overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
 .hero-search input {
     flex: 1;
-    min-width: 0;               /* prevents flex blowout */
+    min-width: 0;
     padding: 14px 18px;
     border: none;
     font-size: 0.95rem;
@@ -135,7 +133,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
-   FLOATING ACTIONS  (fixed — lives outside hero in JSX)
+   FLOATING ACTIONS
 ══════════════════════════════════════════════════════════════ */
 .floating-actions {
     position: fixed;
@@ -308,7 +306,7 @@
 .stats-section {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;                /* KEY — wraps on small screens */
+    flex-wrap: wrap;
     background-color: #042C53;
     padding: 40px 20px;
 }
@@ -317,7 +315,7 @@
     text-align: center;
     padding: 20px 40px;
     border-right: 1px solid rgba(181,212,244,0.2);
-    flex: 1 1 140px;               /* grow/shrink, min 140px before wrapping */
+    flex: 1 1 140px;
 }
 
 .stat-item:last-child { border-right: none; }
@@ -471,7 +469,6 @@
 
 .cta-secondary:hover { background-color: #042C53; color: white; }
 
-
 /* ══════════════════════════════════════════════════════════════
    TABLET  ≤ 1024px
 ══════════════════════════════════════════════════════════════ */
@@ -481,13 +478,11 @@
     .how-it-works     { gap: 48px; padding: 70px 40px; }
 }
 
-
 /* ══════════════════════════════════════════════════════════════
    MOBILE  ≤ 768px
 ══════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-    /* — HERO — */
     .hero {
         min-height: 100svh;
         padding: 100px 20px 60px;
@@ -500,7 +495,7 @@
     .hero-search {
         flex-direction: column;
         border-radius: 10px;
-        overflow: visible;          /* allow focus rings */
+        overflow: visible;
         box-shadow: none;
         gap: 10px;
         max-width: 100%;
@@ -523,12 +518,10 @@
     .hero-badges        { gap: 8px; }
     .hero-badges span   { font-size: 0.78rem; padding: 6px 12px; }
 
-    /* — FLOATING BUTTONS — */
     .floating-actions   { right: 14px; bottom: 20px; gap: 8px; }
     .fab                { padding: 10px 13px; font-size: 1.2rem; border-radius: 10px; }
     .fab span           { font-size: 0.58rem; }
 
-    /* — HOW IT WORKS — */
     .how-it-works {
         grid-template-columns: 1fr;
         gap: 32px;
@@ -542,38 +535,30 @@
     .hiw-primary,
     .hiw-secondary      { width: 100%; text-align: center; padding: 13px 20px; }
 
-    /* Disable slide hover on touch */
     .hiw-step:hover     { transform: none; }
-
     .hiw-step           { padding: 18px 16px; gap: 14px; }
     .step-content h4    { font-size: 0.92rem; }
     .step-content p     { font-size: 0.82rem; }
 
-    /* — STATS — */
     .stats-section      { padding: 32px 16px; }
 
     .stat-item {
-        flex: 1 1 45%;          /* 2-column grid feel */
+        flex: 1 1 45%;
         padding: 18px 12px;
         border-right: none;
         border-bottom: 1px solid rgba(181,212,244,0.15);
     }
 
-    /* right column items get a left border for visual separation */
     .stat-item:nth-child(odd)  { border-right: 1px solid rgba(181,212,244,0.15); }
     .stat-item:last-child,
     .stat-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
 
-    /* — SERVICES — */
     .services-section   { padding: 48px 16px; }
     .section-header     { margin-bottom: 28px; }
     .section-header h2  { font-size: 1.4rem; }
     .section-header p   { font-size: 0.88rem; }
 
-    .services-grid      {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
+    .services-grid      { grid-template-columns: 1fr; gap: 14px; }
 
     .service-card {
         flex-direction: row;
@@ -585,18 +570,11 @@
     }
 
     .service-icon       { font-size: 2rem; margin-bottom: 0; flex-shrink: 0; }
-
     .service-card-body  { flex: 1; min-width: 0; }
-
     .service-card h3    { font-size: 0.97rem; margin-bottom: 4px; }
     .service-card p     { font-size: 0.8rem; margin-bottom: 12px; }
-    .service-card button {
-        width: auto;
-        padding: 9px 18px;
-        font-size: 0.8rem;
-    }
+    .service-card button { width: auto; padding: 9px 18px; font-size: 0.8rem; }
 
-    /* — CTA — */
     .cta-section        { padding: 52px 20px; }
     .cta-section h2     { font-size: 1.5rem; }
     .cta-section p      { font-size: 0.9rem; margin-bottom: 24px; }
@@ -605,7 +583,6 @@
     .cta-primary,
     .cta-secondary      { width: 100%; padding: 14px 20px; }
 }
-
 
 /* ══════════════════════════════════════════════════════════════
    SMALL PHONES  ≤ 480px

@@ -64,6 +64,7 @@
     padding: 24px;
     text-align: center;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* FRONT */
@@ -100,28 +101,33 @@
     background: var(--dept-color);
     transform: rotateY(180deg);
     box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    justify-content: flex-start;
+    justify-content: space-between;
     padding: 22px;
+    overflow: hidden;
 }
 
 .dept-icon-sm {
     font-size: 1.8rem;
     margin-bottom: 8px;
+    flex-shrink: 0;
 }
 
 .dept-back h3 {
     font-size: 0.95rem;
     font-weight: 700;
     color: white;
-    margin: 0 0 10px 0;
+    margin: 0 0 6px 0;
 }
 
 .dept-back p {
     font-size: 0.78rem;
     color: rgba(255,255,255,0.88);
     line-height: 1.6;
-    margin: 0 0 14px 0;
+    margin: 0;
     text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .report-link {
@@ -131,10 +137,96 @@
     border: 1px solid rgba(255,255,255,0.5);
     padding: 6px 16px;
     border-radius: 20px;
-    margin-top: auto;
+    margin-top: 0;
+    flex-shrink: 0;
+    align-self: center;
+    text-decoration: none;
+    display: inline-block;
     transition: background 0.3s;
 }
 
 .dept-card:hover .report-link {
     background: rgba(255,255,255,0.2);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TABLET  ≤ 1024px
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+    .dept-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 48px 36px;
+    }
+
+    .report-hero h1 { font-size: 2.3rem; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MOBILE  ≤ 768px
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .report-hero {
+        padding: 56px 20px;
+    }
+
+    .report-hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .report-hero p { font-size: 0.92rem; }
+
+    .dept-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 36px 20px;
+    }
+
+    /* slightly taller so back content fits */
+    .dept-card { height: 200px; }
+
+    .dept-icon { font-size: 2.2rem; margin-bottom: 10px; }
+
+    .dept-front h3 { font-size: 0.9rem; }
+
+    .hover-hint { font-size: 0.65rem; }
+
+    .dept-back { padding: 16px; }
+
+    .dept-icon-sm { font-size: 1.4rem; margin-bottom: 4px; }
+
+    .dept-back h3 { font-size: 0.85rem; margin-bottom: 4px; }
+
+    .dept-back p  { font-size: 0.72rem; line-height: 1.5; }
+
+    .report-link  { font-size: 0.72rem; padding: 5px 12px; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SMALL PHONES  ≤ 480px
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .report-hero { padding: 48px 16px; }
+    .report-hero h1 { font-size: 1.55rem; }
+
+    .dept-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 28px 14px;
+    }
+
+    .dept-card { height: 185px; }
+
+    .dept-front { padding: 18px 14px; }
+    .dept-back  { padding: 14px 12px; }
+
+    .dept-icon    { font-size: 2rem; margin-bottom: 8px; }
+    .dept-front h3 { font-size: 0.82rem; }
+    .hover-hint   { display: none; } /* hide on tiny screens — no space */
+
+    .dept-icon-sm  { font-size: 1.2rem; }
+    .dept-back h3  { font-size: 0.8rem; }
+    .dept-back p   { font-size: 0.68rem; }
+    .report-link   { font-size: 0.68rem; padding: 4px 10px; }
 }

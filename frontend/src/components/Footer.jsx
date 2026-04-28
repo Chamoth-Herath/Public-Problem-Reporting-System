@@ -86,9 +86,9 @@ const Footer = () => {
             <div className="footer-bottom">
                 <p>© {new Date().getFullYear()} Public Problem Reporting System. All rights reserved.</p>
                 <div className="footer-social">
-                    <a href="https://facebook.com"  aria-label="Facebook"  target="_blank" rel="noreferrer">f</a>
+                    <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noreferrer">f</a>
                     <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noreferrer">in</a>
-                    <a href="https://twitter.com"   aria-label="Twitter"   target="_blank" rel="noreferrer">𝕏</a>
+                    <a href="https://twitter.com" aria-label="Twitter" target="_blank" rel="noreferrer">𝕏</a>
                 </div>
             </div>
         </footer>

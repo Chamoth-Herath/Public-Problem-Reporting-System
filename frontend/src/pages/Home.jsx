@@ -16,7 +16,6 @@ const Home = () => {
     const hiwRef      = useRef(null);
 
     useEffect(() => {
-        // Set initial states so mobile never gets stuck at opacity:0
         gsap.set([titleRef.current, subtitleRef.current, searchRef.current], {
             opacity: 0, y: 30,
         });
@@ -79,7 +78,6 @@ const Home = () => {
     return (
         <div className="home">
 
-            {/* ── HERO ─────────────────────────────────────── */}
             <section className="hero" ref={heroRef}>
                 <div className="hero-content">
                     <h1 ref={titleRef}>
@@ -101,13 +99,11 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Floating buttons — OUTSIDE hero so overflow never clips them */}
             <div className="floating-actions">
                 <button className="fab emergency">🚑<span>Emergency</span></button>
                 <button className="fab chat">💬<span>Live Chat</span></button>
             </div>
 
-            {/* ── HOW IT WORKS ─────────────────────────────── */}
             <section className="how-it-works" ref={hiwRef}>
                 <div className="hiw-left">
                     <span className="hiw-tag">How It Works</span>
@@ -142,7 +138,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ── STATS ────────────────────────────────────── */}
             <section className="stats-section" ref={statsRef}>
                 <div className="stat-item"><h3>12,450+</h3><p>Complaints Resolved</p></div>
                 <div className="stat-item"><h3>9</h3><p>Provinces Covered</p></div>
@@ -150,7 +145,6 @@ const Home = () => {
                 <div className="stat-item"><h3>24/7</h3><p>Emergency Support</p></div>
             </section>
 
-            {/* ── SERVICES ─────────────────────────────────── */}
             <section className="services-section" ref={servicesRef}>
                 <div className="section-header">
                     <h2>Report to the Right Department</h2>
@@ -158,13 +152,8 @@ const Home = () => {
                 </div>
                 <div className="services-grid">
                     {services.map((service, index) => (
-                        <div
-                            className="service-card"
-                            key={index}
-                            style={{ '--accent': service.color }}
-                        >
+                        <div className="service-card" key={index} style={{ '--accent': service.color }}>
                             <div className="service-icon">{service.icon}</div>
-                            {/* service-card-body wraps text+button for the mobile row layout */}
                             <div className="service-card-body">
                                 <h3>{service.title}</h3>
                                 <p>{service.desc}</p>
@@ -175,10 +164,8 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ── WEATHER ──────────────────────────────────── */}
             <WeatherSection />
 
-            {/* ── CTA ──────────────────────────────────────── */}
             <section className="cta-section">
                 <h2>Have an Issue to Report?</h2>
                 <p>Join thousands of Sri Lankan citizens making their communities better</p>

@@ -9,84 +9,84 @@ const departments = [
         title: 'Water Supply',
         brief: 'Report pipe breaks, water shortages, contamination issues and supply disruptions to the National Water Supply & Drainage Board.',
         path: '/report/water',
-        color: '#185FA5'
+        color: '#4a6fa5'
     },
     {
         icon: '⚡',
         title: 'Electricity',
         brief: 'Report power outages, electrical faults, transformer issues and service disruptions to the Ceylon Electricity Board.',
         path: '/report/electricity',
-        color: '#1D9E75'
+        color: '#4a6fa5'
     },
     {
         icon: '🗑️',
         title: 'Garbage & Sanitation',
         brief: 'Report uncollected waste, illegal dumping, blocked drains and sanitation issues to your local Municipal Council.',
         path: '/report/garbage',
-        color: '#042C53'
+        color: '#4a6fa5'
     },
     {
         icon: '🏥',
         title: 'Health',
         brief: 'Report health hazards, unsanitary conditions, disease outbreaks and public health concerns to the Ministry of Health.',
         path: '/report/health',
-        color: '#e74c3c'
+        color: '#4a6fa5'
     },
     {
         icon: '👮',
         title: 'Police',
         brief: 'Report crimes, suspicious activity, traffic violations and public safety concerns to the Sri Lanka Police.',
         path: '/report/police',
-        color: '#2c3e50'
+        color: '#5f6b7a'
     },
     {
         icon: '🌾',
         title: 'Agriculture',
         brief: 'Report crop diseases, irrigation failures, pest outbreaks and farming infrastructure issues to the Ministry of Agriculture.',
         path: '/report/agriculture',
-        color: '#27ae60'
+        color: '#5f6b7a'
     },
     {
         icon: '🎓',
         title: 'Education',
         brief: 'Report school infrastructure issues, teacher shortages, facility damage and educational service problems to the Ministry of Education.',
         path: '/report/education',
-        color: '#8e44ad'
+        color: '#5f6b7a'
     },
     {
         icon: '🛣️',
         title: 'Roads & Highways',
         brief: 'Report road damage, potholes, broken streetlights and highway infrastructure issues to the Road Development Authority.',
         path: '/report/roads',
-        color: '#e67e22'
+        color: '#5f6b7a'
     },
     {
         icon: '🌿',
         title: 'Environment',
         brief: 'Report illegal deforestation, pollution, wildlife threats and environmental damage to the Central Environmental Authority.',
         path: '/report/environment',
-        color: '#16a085'
+        color: '#4a6fa5'
     },
     {
         icon: '🚌',
         title: 'Transport',
         brief: 'Report public transport issues, bus route problems and vehicle safety concerns to the National Transport Commission.',
         path: '/report/transport',
-        color: '#d35400'
+        color: '#4a6fa5'
     },
     {
         icon: '🏛️',
         title: 'Municipal Council',
         brief: 'Report general civic issues, building violations, noise complaints and local governance problems to your Municipal Council.',
         path: '/report/municipal',
-        color: '#2980b9'
+        color: '#4a6fa5'
     },
     {
         icon: '💼',
         title: 'Labour & Employment',
         brief: 'Report workplace violations, unfair dismissals, safety hazards and labour law breaches to the Department of Labour.',
         path: '/report/labour',
-        color: '#c0392b'
+        color: '#4a6fa5'
     },
 ];
 
