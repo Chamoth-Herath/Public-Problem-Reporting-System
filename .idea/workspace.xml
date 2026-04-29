@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b7a5a763-a95c-4aa1-a398-4639bab4c944" name="Changes" comment="" />
+    <list default="true" id="b7a5a763-a95c-4aa1-a398-4639bab4c944" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +43,7 @@
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/WHITEAWAYS/Desktop/Assigments/HND Assigments/SEM 4/CP/practicing/Test1/civic-portal&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/WHITEAWAYS/Desktop/Assigments/HND Assigments/SEM 4/CP/practicing/Test1/civic-portal/frontend/public&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2026.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
@@ -49,6 +51,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\WHITEAWAYS\Desktop\Assigments\HND Assigments\SEM 4\CP\practicing\Test1\civic-portal\frontend\public" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\WHITEAWAYS\Desktop\Assigments\HND Assigments\SEM 4\CP\practicing\Test1\civic-portal\frontend\src\pages" />
     </key>
@@ -81,6 +86,9 @@
       <workItem from="1777300076271" duration="11557000" />
       <workItem from="1777315441672" duration="2077000" />
       <workItem from="1777392324304" duration="13712000" />
+      <workItem from="1777466819575" duration="4453000" />
+      <workItem from="1777482486015" duration="346000" />
+      <workItem from="1777484556832" duration="890000" />
     </task>
     <servers />
   </component>
