@@ -1,10 +1,61 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Home.css';
 import WeatherSection from '../components/WeatherCard';
+import { useNavigate } from 'react-router-dom';
+import Chat from '../components/Chat';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ── Count-up hook ── */
+const useCountUp = (target, duration = 2000) => {
+    const [count, setCount] = useState(0);
+    const ref = useRef(null);
+    const started = useRef(false);
+
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && !started.current) {
+                started.current = true;
+                const isFloat = target % 1 !== 0;
+                const startTime = performance.now();
+                const animate = (now) => {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    setCount(isFloat ? parseFloat((eased * target).toFixed(1)) : Math.floor(eased * target));
+                    if (progress < 1) requestAnimationFrame(animate);
+                };
+                requestAnimationFrame(animate);
+            }
+        }, { threshold: 0.4 });
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, [target, duration]);
+
+    return { count, ref };
+};
+
+const parseStatValue = (str) => {
+    const num = parseFloat(str.replace(/[^0-9.]/g, ''));
+    const prefix = str.match(/^[^0-9]*/)?.[0] || '';
+    const suffix = str.match(/[^0-9.]+$/)?.[0] || '';
+    return { num, prefix, suffix };
+};
+
+const StatItem = ({ number, label }) => {
+    const { num, prefix, suffix } = parseStatValue(number);
+    const { count, ref } = useCountUp(num, 2000);
+    return (
+        <div className="stat-item" ref={ref}>
+            <h3>{prefix}{count}{suffix}</h3>
+            <p>{label}</p>
+        </div>
+    );
+};
 
 const Home = () => {
     const heroRef     = useRef(null);
@@ -12,9 +63,9 @@ const Home = () => {
     const subtitleRef = useRef(null);
     const searchRef   = useRef(null);
     const servicesRef = useRef(null);
-    const statsRef    = useRef(null);
     const hiwRef      = useRef(null);
-
+    const navigate = useNavigate();
+    const [chatOpen, setChatOpen] = useState(false);
     useEffect(() => {
         gsap.set([titleRef.current, subtitleRef.current, searchRef.current], {
             opacity: 0, y: 30,
@@ -25,22 +76,32 @@ const Home = () => {
             .to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
             .to(searchRef.current,   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3');
 
+        /* Service cards — every single card, staggered */
         gsap.fromTo('.service-card',
-            { opacity: 0, y: 40 },
+            { opacity: 0, y: 50 },
             {
-                opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out',
+                opacity: 1, y: 0, duration: 0.55, stagger: 0.09, ease: 'power3.out',
                 scrollTrigger: { trigger: servicesRef.current, start: 'top 85%', once: true },
             }
         );
 
-        gsap.fromTo('.stat-item',
-            { opacity: 0, y: 25 },
+        /* Section header lines animate independently */
+        gsap.fromTo('.services-section .section-header h2',
+            { opacity: 0, y: 24 },
             {
-                opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: 'power3.out',
-                scrollTrigger: { trigger: statsRef.current, start: 'top 85%', once: true },
+                opacity: 1, y: 0, duration: 0.6, ease: 'power3.out',
+                scrollTrigger: { trigger: '.services-section .section-header', start: 'top 88%', once: true },
+            }
+        );
+        gsap.fromTo('.services-section .section-header p',
+            { opacity: 0, y: 18 },
+            {
+                opacity: 1, y: 0, duration: 0.5, delay: 0.15, ease: 'power3.out',
+                scrollTrigger: { trigger: '.services-section .section-header', start: 'top 88%', once: true },
             }
         );
 
+        /* How it works */
         gsap.fromTo('.hiw-left .hiw-tag, .hiw-left h2, .hiw-left p, .hiw-buttons',
             { opacity: 0, x: -30 },
             {
@@ -48,12 +109,37 @@ const Home = () => {
                 scrollTrigger: { trigger: hiwRef.current, start: 'top 80%', once: true },
             }
         );
-
         gsap.fromTo('.hiw-step',
             { opacity: 0, x: 40 },
             {
                 opacity: 1, x: 0, duration: 0.5, stagger: 0.18, ease: 'power3.out',
                 scrollTrigger: { trigger: hiwRef.current, start: 'top 80%', once: true },
+            }
+        );
+
+        /* Weather section — fade up with a gentle scale */
+        gsap.fromTo('.weather-section',
+            { opacity: 0, y: 40, scale: 0.98 },
+            {
+                opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: '.weather-section', start: 'top 88%', once: true },
+            }
+        );
+        /* Individual weather cards stagger in */
+        gsap.fromTo('.weather-card',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: 'power3.out',
+                scrollTrigger: { trigger: '.weather-section', start: 'top 85%', once: true },
+            }
+        );
+
+        /* CTA section */
+        gsap.fromTo('.cta-section h2, .cta-section p, .cta-buttons',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'power3.out',
+                scrollTrigger: { trigger: '.cta-section', start: 'top 85%', once: true },
             }
         );
 
@@ -73,6 +159,13 @@ const Home = () => {
         { icon: '🌊', title: 'Disaster',      desc: 'Report natural disasters, floods and emergency situations',     color: '#042C53' },
         { icon: '🌾', title: 'Agriculture',   desc: 'Report crop diseases, irrigation issues and farming problems',  color: '#185FA5' },
         { icon: '🎓', title: 'Education',     desc: 'Report school infrastructure and educational service issues',   color: '#1D9E75' },
+    ];
+
+    const stats = [
+        { number: '12450+', label: 'Complaints Resolved' },
+        { number: '9',      label: 'Provinces Covered' },
+        { number: '8+',     label: 'Government Departments' },
+        { number: '24/7',   label: 'Emergency Support' },
     ];
 
     return (
@@ -100,8 +193,12 @@ const Home = () => {
             </section>
 
             <div className="floating-actions">
-                <button className="fab emergency">🚑<span>Emergency</span></button>
-                <button className="fab chat">💬<span>Live Chat</span></button>
+                <button className="fab emergency" onClick={() => navigate('/emergency')}>
+                    🚑<span>Emergency</span>
+                </button>
+                <button className="fab chat" onClick={() => setChatOpen(prev => !prev)}>
+                    💬<span>Live Chat</span>
+                </button>
             </div>
 
             <section className="how-it-works" ref={hiwRef}>
@@ -115,7 +212,7 @@ const Home = () => {
                         built for every Sri Lankan citizen.
                     </p>
                     <div className="hiw-buttons">
-                        <button className="hiw-primary">File Complaint</button>
+                        <button className="hiw-primary" onClick={() => navigate('/departments')}>File Complaint</button>
                         <button className="hiw-secondary">Review Complaint</button>
                     </div>
                 </div>
@@ -138,11 +235,10 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="stats-section" ref={statsRef}>
-                <div className="stat-item"><h3>12,450+</h3><p>Complaints Resolved</p></div>
-                <div className="stat-item"><h3>9</h3><p>Provinces Covered</p></div>
-                <div className="stat-item"><h3>8+</h3><p>Government Departments</p></div>
-                <div className="stat-item"><h3>24/7</h3><p>Emergency Support</p></div>
+            <section className="stats-section">
+                {stats.map((stat, i) => (
+                    <StatItem key={i} number={stat.number} label={stat.label} />
+                ))}
             </section>
 
             <section className="services-section" ref={servicesRef}>
@@ -174,7 +270,7 @@ const Home = () => {
                     <button className="cta-secondary">Learn More</button>
                 </div>
             </section>
-               <h1>ALOKAAA</h1>
+            {chatOpen && <Chat onClose={() => setChatOpen(false)} />}
         </div>
     );
 };

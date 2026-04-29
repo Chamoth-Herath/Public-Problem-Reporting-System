@@ -32,6 +32,7 @@ const DisasterIcon = ({ color }) => (
     </svg>
 );
 
+
 const Services = () => {
     const navigate = useNavigate();
 
@@ -44,6 +45,9 @@ const Services = () => {
             { opacity: 0, y: 30 },
             { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power3.out' }
         );
+    }, []);
+    useEffect(() => {
+        document.title = 'Services - Public Problem Reporting System';
     }, []);
 
     const services = [

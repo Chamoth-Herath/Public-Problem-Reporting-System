@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import emblem from '../assets/emblem.png';
 import './Navbar.css';
-
+import { NavLink, Link, useLocation } from 'react-router-dom';
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
@@ -60,10 +59,10 @@ const Navbar = () => {
 
                 <div className="navbar-center">
                     <ul className="navbar-links">
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/about">About</Link></li>
-                        <li><Link to="/services">Services</Link></li>
-                        <li><Link to="/gallery">Gallery</Link></li>
+                        <li><NavLink to="/" end>Home</NavLink></li>
+                        <li><NavLink to="/about">About</NavLink></li>
+                        <li><NavLink to="/services">Services</NavLink></li>
+                        <li><NavLink to="/gallery">Gallery</NavLink></li>
                     </ul>
                 </div>
 
@@ -104,10 +103,10 @@ const Navbar = () => {
                 </div>
 
                 <ul className="mobile-menu-links">
-                    <li><Link to="/"         onClick={closeMenu}>Home</Link></li>
-                    <li><Link to="/about"    onClick={closeMenu}>About</Link></li>
-                    <li><Link to="/services" onClick={closeMenu}>Services</Link></li>
-                    <li><Link to="/gallery"  onClick={closeMenu}>Gallery</Link></li>
+                    <li><NavLink to="/"         end     onClick={closeMenu}>Home</NavLink></li>
+                    <li><NavLink to="/about"            onClick={closeMenu}>About</NavLink></li>
+                    <li><NavLink to="/services"         onClick={closeMenu}>Services</NavLink></li>
+                    <li><NavLink to="/gallery"          onClick={closeMenu}>Gallery</NavLink></li>
                 </ul>
 
                 <div className="mobile-menu-auth">
