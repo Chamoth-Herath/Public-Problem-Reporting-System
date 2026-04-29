@@ -103,6 +103,9 @@ const Departments = () => {
             { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power3.out' }
         );
     }, []);
+    useEffect(() => {
+        document.title = 'Departments - Public Problem Reporting System';
+    }, []);
 
     return (
         <div className="report-page">

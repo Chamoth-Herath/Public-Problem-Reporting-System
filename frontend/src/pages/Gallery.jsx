@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Gallery.css';
@@ -119,6 +119,9 @@ const Gallery = () => {
             setLoading(false);
         }, 900);
         return () => clearTimeout(timer);
+    }, []);
+    useEffect(() => {
+        document.title = 'Gallery - Public Problem Reporting System';
     }, []);
 
     const filtered = complaints.filter(c =>

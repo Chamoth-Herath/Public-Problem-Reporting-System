@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -23,6 +24,7 @@ const useCountUp = (target, duration = 2000) => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !started.current) {
                 started.current = true;
+
                 const isFloat = target % 1 !== 0;
                 const startTime = performance.now();
                 const animate = (now) => {
@@ -41,6 +43,7 @@ const useCountUp = (target, duration = 2000) => {
 
     return { count, ref };
 };
+
 
 const parseStatValue = (str) => {
     const num = parseFloat(str.replace(/[^0-9.]/g, ''));
@@ -150,6 +153,9 @@ const About = () => {
         { number: '98%', label: 'Response Rate' },
         { number: '2026', label: 'Established' },
     ];
+    useEffect(() => {
+        document.title = 'About - Public Problem Reporting System';
+    }, []);
 
     return (
         <div className="about-page">

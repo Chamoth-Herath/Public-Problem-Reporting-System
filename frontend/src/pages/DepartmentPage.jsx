@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './DepartmentPage.css';
@@ -348,7 +349,9 @@ const DepartmentPage = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
-
+  useEffect(() => {
+    document.title = 'Report Issue - Public Problem Reporting System';
+  }, []);
   /* ── Load Google Maps ── */
   useEffect(() => {
     if (!data) return;

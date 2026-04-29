@@ -3,6 +3,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Home.css';
 import WeatherSection from '../components/WeatherCard';
+import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import Chat from '../components/Chat';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,7 +65,8 @@ const Home = () => {
     const searchRef   = useRef(null);
     const servicesRef = useRef(null);
     const hiwRef      = useRef(null);
-
+    const navigate = useNavigate();
+    const [chatOpen, setChatOpen] = useState(false);
     useEffect(() => {
         gsap.set([titleRef.current, subtitleRef.current, searchRef.current], {
             opacity: 0, y: 30,
@@ -190,8 +194,12 @@ const Home = () => {
             </section>
 
             <div className="floating-actions">
-                <button className="fab emergency">🚑<span>Emergency</span></button>
-                <button className="fab chat">💬<span>Live Chat</span></button>
+                <button className="fab emergency" onClick={() => navigate('/emergency')}>
+                    🚑<span>Emergency</span>
+                </button>
+                <button className="fab chat" onClick={() => setChatOpen(prev => !prev)}>
+                    💬<span>Live Chat</span>
+                </button>
             </div>
 
             <section className="how-it-works" ref={hiwRef}>
@@ -263,7 +271,7 @@ const Home = () => {
                     <button className="cta-secondary">Learn More</button>
                 </div>
             </section>
-
+            {chatOpen && <Chat onClose={() => setChatOpen(false)} />}
         </div>
     );
 };

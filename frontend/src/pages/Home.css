@@ -216,6 +216,9 @@
     gap: 14px;
     flex-wrap: wrap;
 }
+.hiw-buttons button {
+    text-decoration: none;
+}
 
 .hiw-primary {
     background-color: #042C53;
