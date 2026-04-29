@@ -56,6 +56,8 @@ const Footer = () => {
                         <li><Link to="/about">About</Link></li>
                         <li><Link to="/services">Services</Link></li>
                         <li><Link to="/gallery">Gallery</Link></li>
+                        <li><Link to="/feedback">Feedback</Link></li>
+                        <li><Link to="/privacy-policy">Privacy Policy</Link></li>
                     </ul>
                 </CollapsibleSection>
 
@@ -85,6 +87,11 @@ const Footer = () => {
 
             <div className="footer-bottom">
                 <p>© {new Date().getFullYear()} Public Problem Reporting System. All rights reserved.</p>
+                <div className="footer-bottom-links">
+                    <Link to="/privacy-policy">Privacy Policy</Link>
+                    <span>·</span>
+                    <Link to="/feedback">Feedback</Link>
+                </div>
                 <div className="footer-social">
                     <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noreferrer">f</a>
                     <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noreferrer">in</a>

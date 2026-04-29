@@ -10,6 +10,9 @@ import Services from './pages/Services';
 import Departments from './pages/Departments';
 import Emergency from './pages/Emergency';
 import Disaster from './pages/Disaster';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Feedback from './pages/Feedback';
+
 function App() {
     return (
         <Router>
@@ -24,6 +27,8 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/emergency" element={<Emergency />} />
                     <Route path="/disaster" element={<Disaster />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/feedback" element={<Feedback />} />
                 </Routes>
             </main>
             <Footer />

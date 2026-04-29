@@ -224,3 +224,25 @@
     .footer-bottom { padding: 20px 16px; }
     .footer-brand h2 { font-size: 1rem; }
 }
+
+.footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-bottom-links a {
+    font-size: 0.8rem;
+    color: rgba(181, 212, 244, 0.45);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: #1D9E75;
+}
+
+.footer-bottom-links span {
+    color: rgba(181, 212, 244, 0.3);
+    font-size: 0.8rem;
+}
