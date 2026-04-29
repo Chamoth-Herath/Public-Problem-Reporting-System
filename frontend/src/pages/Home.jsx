@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Home.css';
 import WeatherSection from '../components/WeatherCard';
-import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import Chat from '../components/Chat';
 
@@ -213,7 +212,7 @@ const Home = () => {
                         built for every Sri Lankan citizen.
                     </p>
                     <div className="hiw-buttons">
-                        <button className="hiw-primary">File Complaint</button>
+                        <button className="hiw-primary" onClick={() => navigate('/departments')}>File Complaint</button>
                         <button className="hiw-secondary">Review Complaint</button>
                     </div>
                 </div>
