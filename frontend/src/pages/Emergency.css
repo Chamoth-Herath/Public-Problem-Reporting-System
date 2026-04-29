@@ -78,9 +78,7 @@
     border: 1px solid rgba(255,255,255,0.2);
 }
 
-.em-hotlines strong {
-    color: #ffe066;
-}
+.em-hotlines strong { color: #ffe066; }
 
 /* SERVICE SELECT */
 .em-select {
@@ -124,10 +122,7 @@
     box-shadow: 0 20px 50px rgba(0,0,0,0.13);
 }
 
-.em-service-icon {
-    font-size: 3.5rem;
-    margin-bottom: 16px;
-}
+.em-service-icon { font-size: 3.5rem; margin-bottom: 16px; }
 
 .em-service-card h3 {
     font-size: 1.3rem;
@@ -142,29 +137,6 @@
     line-height: 1.7;
     margin-bottom: 20px;
 }
-.em-location-map {
-    width: 100%;
-    height: 280px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #0e1a2b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    border: 2px solid #eee;
-}
-
-.em-location-text {
-    background: #f0f7ff;
-    border: 1px solid #B5D4F4;
-    color: #042C53;
-    font-size: 0.83rem;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 8px;
-    margin-top: 6px;
-}
 
 .em-hotline-chip {
     display: inline-block;
@@ -177,9 +149,7 @@
 }
 
 /* FORM SECTION */
-.em-form-section {
-    padding: 60px;
-}
+.em-form-section { padding: 60px; }
 
 .em-form-wrap {
     max-width: 800px;
@@ -197,9 +167,7 @@
     padding: 0;
 }
 
-.em-back-btn:hover {
-    color: #042C53;
-}
+.em-back-btn:hover { color: #042C53; }
 
 .em-selected-badge {
     display: flex;
@@ -212,22 +180,9 @@
     margin-bottom: 28px;
 }
 
-.em-selected-badge span {
-    font-size: 2.5rem;
-}
-
-.em-selected-badge h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: white;
-    margin: 0 0 4px 0;
-}
-
-.em-selected-badge p {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.8);
-    margin: 0;
-}
+.em-selected-badge span { font-size: 2.5rem; }
+.em-selected-badge h3 { font-size: 1.1rem; font-weight: 700; color: white; margin: 0 0 4px 0; }
+.em-selected-badge p  { font-size: 0.85rem; color: rgba(255,255,255,0.8); margin: 0; }
 
 .em-form-card {
     background: white;
@@ -253,9 +208,7 @@
     margin-bottom: 24px;
 }
 
-.em-field {
-    margin-bottom: 20px;
-}
+.em-field { margin-bottom: 20px; }
 
 .em-field label {
     display: block;
@@ -276,10 +229,97 @@
     box-sizing: border-box;
 }
 
-.em-field input:focus {
-    border-color: #185FA5;
+.em-field input:focus { border-color: #185FA5; }
+
+/* ── MAPS ── */
+.em-location-map {
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    background: #0e1a2b;
+    margin-bottom: 10px;
+    border: 2px solid #eee;
 }
 
+.em-map {
+    width: 100%;
+    height: 380px;
+    border-radius: 16px;
+    background: #0e1a2b;
+}
+
+/* Loading overlay */
+.em-map-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0e1a2b;
+    border-radius: 12px;
+    color: rgba(181,212,244,0.7);
+    font-family: sans-serif;
+    font-size: 0.85rem;
+    gap: 10px;
+    z-index: 10;
+}
+
+.em-map-spinner {
+    width: 34px;
+    height: 34px;
+    border: 3px solid rgba(181,212,244,0.15);
+    border-top-color: #e74c3c;
+    border-radius: 50%;
+    animation: em-spin 0.8s linear infinite;
+}
+
+@keyframes em-spin { to { transform: rotate(360deg); } }
+
+/* Address text */
+.em-location-text {
+    background: #f0f7ff;
+    border: 1px solid #B5D4F4;
+    color: #042C53;
+    font-size: 0.83rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-top: 8px;
+    word-break: break-word;
+}
+
+/* Map fallback */
+.em-map-fallback {
+    text-align: center;
+    color: #B5D4F4;
+    font-size: 0.9rem;
+}
+
+/* Leaflet dark theme */
+.leaflet-popup-content-wrapper {
+    background: #0a1628 !important;
+    color: #F1EFE8 !important;
+    border: 1px solid rgba(181,212,244,0.2) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+.leaflet-popup-tip            { background: #0a1628 !important; }
+.leaflet-popup-close-button   { color: rgba(241,239,232,0.5) !important; }
+.leaflet-control-zoom a       { background: #0a1628 !important; color: #B5D4F4 !important; border-color: rgba(181,212,244,0.2) !important; }
+.leaflet-control-zoom a:hover { background: #142236 !important; }
+.leaflet-control-attribution  { background: rgba(7,15,26,0.75) !important; color: rgba(181,212,244,0.4) !important; font-size: 0.6rem !important; }
+.leaflet-control-attribution a{ color: rgba(181,212,244,0.6) !important; }
+
+/* NEARBY MAP WRAP */
+.em-map-wrap h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #042C53;
+    margin-bottom: 14px;
+}
+
+/* SUBMIT */
 .em-submit-btn {
     width: 100%;
     padding: 16px;
@@ -298,35 +338,7 @@
     transform: translateY(-2px);
 }
 
-.em-submit-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* MAP */
-.em-map-wrap h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #042C53;
-    margin-bottom: 14px;
-}
-
-.em-map {
-    width: 100%;
-    height: 380px;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #0e1a2b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.em-map-fallback {
-    text-align: center;
-    color: #B5D4F4;
-    font-size: 0.9rem;
-}
+.em-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* SUCCESS */
 .em-success {
@@ -345,10 +357,7 @@
     width: 100%;
 }
 
-.em-success-icon {
-    font-size: 4rem;
-    margin-bottom: 20px;
-}
+.em-success-icon { font-size: 4rem; margin-bottom: 20px; }
 
 .em-success-card h2 {
     font-size: 2rem;
@@ -357,10 +366,7 @@
     margin-bottom: 10px;
 }
 
-.em-success-card p {
-    color: #666;
-    margin-bottom: 10px;
-}
+.em-success-card p { color: #666; margin-bottom: 10px; }
 
 .em-ref {
     font-size: 1.6rem;
@@ -377,4 +383,15 @@
     font-size: 0.88rem;
     color: #888;
     margin-bottom: 28px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .em-hero { padding: 60px 20px; }
+    .em-hero-content h1 { font-size: 2rem; }
+    .em-select { padding: 40px 20px; }
+    .em-service-grid { grid-template-columns: 1fr; gap: 16px; }
+    .em-form-section { padding: 30px 16px; }
+    .em-form-card { padding: 24px 20px; }
+    .em-success-card { padding: 40px 24px; }
 }
