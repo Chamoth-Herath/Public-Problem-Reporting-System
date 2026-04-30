@@ -12,6 +12,8 @@ import Emergency from './pages/Emergency';
 import Disaster from './pages/Disaster';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Feedback from './pages/Feedback';
+import AgentDashboard from "./pages/AgentDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
     return (
@@ -29,6 +31,8 @@ function App() {
                     <Route path="/disaster" element={<Disaster />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                     <Route path="/feedback" element={<Feedback />} />
+                    <Route path="/agent" element={<AgentDashboard />} />
+                    <Route path="/admin" element={<AdminDashboard />} />
                 </Routes>
             </main>
             <Footer />

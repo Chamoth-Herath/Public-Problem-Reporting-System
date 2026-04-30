@@ -24,9 +24,23 @@ const Feedback = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmitted(true);
+        try {
+            const response = await fetch('http://localhost:5000/api/feedback', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form)
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setSubmitted(true);
+            } else {
+                alert('Failed to submit: ' + data.message);
+            }
+        } catch (error) {
+            alert('Server error. Please try again.');
+        }
     };
 
     return (

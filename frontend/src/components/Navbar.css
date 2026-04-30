@@ -197,6 +197,30 @@
     transition: opacity 0.3s ease;
 }
 
+
+.btn-profile {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-profile:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-profile svg {
+    flex-shrink: 0;
+}
 .navbar-mobile-overlay.open { opacity: 1; }
 
 /* ── MOBILE DRAWER ─────────────────────────────── */

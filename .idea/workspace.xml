@@ -2,19 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a5a763-a95c-4aa1-a398-4639bab4c944" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/api/feedback.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/application/feedback.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/domain/feedback.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/report.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/application/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/application/report.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/domain/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/domain/report.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Emergency.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Emergency.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Emergency.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Emergency.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Feedback.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Feedback.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +25,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -103,7 +104,9 @@
       <workItem from="1777484556832" duration="890000" />
       <workItem from="1777532139893" duration="9803000" />
       <workItem from="1777555065268" duration="1797000" />
-      <workItem from="1777557317907" duration="1742000" />
+      <workItem from="1777557317907" duration="4513000" />
+      <workItem from="1777570274902" duration="2479000" />
+      <workItem from="1777573354158" duration="2331000" />
     </task>
     <servers />
   </component>
