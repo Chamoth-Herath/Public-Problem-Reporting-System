@@ -2,19 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a5a763-a95c-4aa1-a398-4639bab4c944" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/api/feedback.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/application/feedback.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/domain/feedback.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Feedback.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Feedback.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Emergency.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Emergency.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Emergency.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Emergency.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +96,8 @@
       <workItem from="1777555065268" duration="1797000" />
       <workItem from="1777557317907" duration="4513000" />
       <workItem from="1777570274902" duration="2479000" />
-      <workItem from="1777573354158" duration="2331000" />
+      <workItem from="1777573354158" duration="2399000" />
+      <workItem from="1777578079791" duration="36000" />
     </task>
     <servers />
   </component>

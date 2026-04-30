@@ -47,6 +47,7 @@ const NearbyMap = ({ service }) => {
     const mapRef = useRef(null);
     const [status, setStatus] = useState('loading');
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const timer = setTimeout(() => { loadLeaflet(() => initMap()); }, 200);
         return () => { clearTimeout(timer); if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
@@ -89,12 +90,13 @@ const NearbyMap = ({ service }) => {
 /* ─────────────────────────────────────────────
    MAP 2 — DRAGGABLE LOCATION PICKER
 ───────────────────────────────────────────── */
-const LocationPicker = ({ onLocationChange }) => {
+const LocationPicker = React.memo(({ onLocationChange }) => {
     const containerRef = useRef(null);
     const mapRef = useRef(null);
     const markerRef = useRef(null);
     const [status, setStatus] = useState('loading');
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const timer = setTimeout(() => { loadLeaflet(() => initMap()); }, 200);
         return () => { clearTimeout(timer); if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
@@ -137,15 +139,46 @@ const LocationPicker = ({ onLocationChange }) => {
             <div ref={containerRef} className="em-location-map" style={{ opacity: status === 'loading' ? 0 : 1, transition: 'opacity .4s' }} />
         </div>
     );
-};
+});
 
 /* ─────────────────────────────────────────────
    STATUS TRACKER COMPONENT
 ───────────────────────────────────────────── */
-const StatusTracker = ({ request, onDismiss }) => {
+const StatusTracker = ({ request, onDismiss, onCancel }) => {
     const service = services.find(s => s.id === request.serviceType) || services[0];
     const currentIndex = STATUS_STEPS.findIndex(s => s.key === request.status);
     const isDone = request.status === 'resolved';
+    const isPending = request.status === 'pending';
+    const [cancelling, setCancelling] = useState(false);
+    const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+
+    const handleCancelRequest = async () => {
+        setCancelling(true);
+        try {
+            // Try DELETE first, fall back to PATCH, then cancel locally anyway
+            let cancelled = false;
+            try {
+                const res = await fetch(`http://localhost:5000/api/emergency/${request.id}`, {
+                    method: 'DELETE',
+                });
+                if (res.ok) cancelled = true;
+            } catch { /* ignore */ }
+
+            if (!cancelled) {
+                try {
+                    await fetch(`http://localhost:5000/api/emergency/${request.id}/status`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status: 'cancelled' }),
+                    });
+                } catch { /* ignore */ }
+            }
+        } catch { /* ignore all errors */ }
+        // Always cancel locally so user is never stuck
+        setCancelling(false);
+        setShowCancelConfirm(false);
+        onCancel();
+    };
 
     return (
         <section className="em-tracking em-animate">
@@ -202,16 +235,53 @@ const StatusTracker = ({ request, onDismiss }) => {
                     {request.status === 'resolved'   && '🎉 Your emergency has been resolved. Stay safe!'}
                 </div>
 
+                {/* Cancel confirmation modal */}
+                {showCancelConfirm && (
+                    <div className="em-cancel-confirm">
+                        <div className="em-cancel-confirm-icon">⚠️</div>
+                        <p className="em-cancel-confirm-text">
+                            Are you sure you want to cancel this emergency request?<br />
+                            <span>Only cancel if the situation is no longer an emergency.</span>
+                        </p>
+                        <div className="em-cancel-confirm-actions">
+                            <button
+                                className="em-cancel-confirm-yes"
+                                onClick={handleCancelRequest}
+                                disabled={cancelling}
+                            >
+                                {cancelling ? 'Cancelling…' : 'Yes, Cancel Request'}
+                            </button>
+                            <button
+                                className="em-cancel-confirm-no"
+                                onClick={() => setShowCancelConfirm(false)}
+                                disabled={cancelling}
+                            >
+                                No, Keep Active
+                            </button>
+                        </div>
+                    </div>
+                )}
+
                 {isDone ? (
                     <button className="em-submit-btn" style={{ background: '#1D9E75' }} onClick={onDismiss}>
                         Back to Emergency Services
                     </button>
                 ) : (
-                    <p className="em-polling-note">
-                        🔄 Status updates automatically every 5 seconds
-                        <br />
-                        <span>For urgent help call <strong>{service.hotline}</strong> directly</span>
-                    </p>
+                    <>
+                        <p className="em-polling-note">
+                            🔄 Status updates automatically every 5 seconds
+                            <br />
+                            <span>For urgent help call <strong>{service.hotline}</strong> directly</span>
+                        </p>
+                        {isPending && !showCancelConfirm && (
+                            <button
+                                className="em-cancel-btn"
+                                onClick={() => setShowCancelConfirm(true)}
+                            >
+                                ✕ Cancel Request
+                            </button>
+                        )}
+                    </>
                 )}
             </div>
         </section>
@@ -321,6 +391,7 @@ const Emergency = () => {
     const [selectedService, setSelectedService] = useState(null);
     const [phone, setPhone] = useState('');
     const [location, setLocation] = useState('');
+    const handleLocationChange = useCallback((val) => setLocation(val), []);
     const pollRef = useRef(null);
 
     /* ── On mount: check localStorage for active request ── */
@@ -364,6 +435,7 @@ const Emergency = () => {
         } catch { /* network error — will retry */ }
     }, [activeRequest]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (view === 'tracking' && activeRequest?.status !== 'resolved') {
             fetchStatus();
@@ -373,7 +445,6 @@ const Emergency = () => {
     }, [view, activeRequest?.id]);
 
     /* ── Submit handler ── */
-    const refNum = useRef('');
     const handleSubmit = async () => {
         if (!phone || !location) return;
         try {
@@ -396,6 +467,16 @@ const Emergency = () => {
 
     /* ── Dismiss resolved request ── */
     const handleDismiss = () => {
+        localStorage.removeItem(STORAGE_KEY);
+        clearInterval(pollRef.current);
+        setActiveRequest(null);
+        setSelectedService(null);
+        setPhone(''); setLocation('');
+        setView('warning');
+    };
+
+    /* ── Cancel pending request ── */
+    const handleCancel = () => {
         localStorage.removeItem(STORAGE_KEY);
         clearInterval(pollRef.current);
         setActiveRequest(null);
@@ -480,7 +561,7 @@ const Emergency = () => {
                             </div>
                             <div className="em-field">
                                 <label>Pin Your Location * <span style={{ fontWeight: 400, color: '#888' }}>(click map or drag pin)</span></label>
-                                <LocationPicker onLocationChange={setLocation} />
+                                <LocationPicker onLocationChange={handleLocationChange} />
                                 {location && <div className="em-location-text">📍 {location}</div>}
                             </div>
                             <button className="em-submit-btn" style={{ background: selectedService.color }} onClick={handleSubmit} disabled={!phone || !location}>
@@ -497,7 +578,11 @@ const Emergency = () => {
 
             {/* STATUS TRACKING */}
             {view === 'tracking' && activeRequest && (
-                <StatusTracker request={activeRequest} onDismiss={handleDismiss} />
+                <StatusTracker
+                    request={activeRequest}
+                    onDismiss={handleDismiss}
+                    onCancel={handleCancel}
+                />
             )}
 
         </div>
