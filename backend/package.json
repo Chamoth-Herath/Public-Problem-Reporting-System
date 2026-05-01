@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.6",
+    "@clerk/express": "^2.1.11",
+    "@google/genai": "^1.51.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongodb": "^7.2.0",
