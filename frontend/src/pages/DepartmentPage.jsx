@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
 import './DepartmentPage.css';
+
+
 
 /* ─────────────────────────────────────────────
    DEPARTMENT DATA
@@ -27,7 +30,7 @@ const DEPT_DATA = {
     shortTitle: 'Electricity',
     tagline: 'Powering the Nation Forward',
     accentColor: '#e6a817', lightColor: '#fff3cd',
-    description: 'The Ceylon Electricity Board (CEB) is the state electricity utility of Sri Lanka, responsible for generation, transmission and distribution of electricity throughout the island. Founded in 1969, CEB operates an installed capacity of over 4,000 MW serving millions of residential, commercial and industrial consumers.',
+    description: 'The Ceylon Electricity Board (CEB) is the state electricity utility of Sri Lanka, responsible for generation, transmission and distribution of electricity throughout the island.',
     services: ['Power outages & blackouts', 'Electrical faults & sparks', 'Transformer failures', 'Street light repairs', 'High voltage line hazards', 'Billing & meter disputes'],
     hotline: '1987', email: 'ceb@ceb.lk', website: 'www.ceb.lk',
     address: 'No. 50, Sir Chittampalam A. Gardiner Mawatha, Colombo 2',
@@ -42,7 +45,7 @@ const DEPT_DATA = {
     shortTitle: 'Garbage & Sanitation',
     tagline: 'Clean Cities, Healthy Lives',
     accentColor: '#1D9E75', lightColor: '#d4f5ec',
-    description: 'Municipal Councils across Sri Lanka manage solid waste collection, disposal and urban sanitation. They coordinate garbage trucks, recycling initiatives and drain cleaning to maintain public hygiene. The Central Environmental Authority also oversees compliance with waste management regulations to ensure a clean environment for all citizens.',
+    description: 'Municipal Councils across Sri Lanka manage solid waste collection, disposal and urban sanitation.',
     services: ['Uncollected household waste', 'Illegal dumping sites', 'Blocked storm drains', 'Overflowing public bins', 'Medical waste disposal', 'Recycling centre requests'],
     hotline: '1920', email: 'sanitation@municipal.lk', website: 'www.mc.lk',
     address: 'Town Hall, Colombo 7',
@@ -57,7 +60,7 @@ const DEPT_DATA = {
     shortTitle: 'Health',
     tagline: 'A Healthier Sri Lanka for All',
     accentColor: '#e63946', lightColor: '#fde8ea',
-    description: 'The Ministry of Health oversees the national health system, coordinating government hospitals, district health services and preventive health programmes island-wide. Sri Lanka maintains one of the highest health outcomes in South Asia with a free public healthcare model covering all citizens.',
+    description: 'The Ministry of Health oversees the national health system, coordinating government hospitals, district health services and preventive health programmes island-wide.',
     services: ['Public health hazards', 'Unsanitary food stalls', 'Disease outbreak alerts', 'Hospital facility complaints', 'Ambulance service issues', 'Illegal medical practices'],
     hotline: '1926', email: 'info@health.gov.lk', website: 'www.health.gov.lk',
     address: 'Suwasiripaya, 385 Rev. Baddegama Wimalawansa Thero Mw, Colombo 10',
@@ -72,7 +75,7 @@ const DEPT_DATA = {
     shortTitle: 'Police',
     tagline: 'Serving & Protecting Every Citizen',
     accentColor: '#042C53', lightColor: '#ccd6e0',
-    description: 'Sri Lanka Police is the national law enforcement agency established in 1866, responsible for maintaining law and order, preventing and investigating crime, and protecting the public. With over 85,000 officers serving across 500+ police stations island-wide, the force upholds the rule of law and citizen safety.',
+    description: 'Sri Lanka Police is the national law enforcement agency responsible for maintaining law and order.',
     services: ['Crimes & theft reports', 'Suspicious activity', 'Traffic violations', 'Domestic violence', 'Missing persons', 'Public disturbances'],
     hotline: '119', email: 'info@police.lk', website: 'www.police.lk',
     address: 'Police Headquarters, Colombo 1',
@@ -87,7 +90,7 @@ const DEPT_DATA = {
     shortTitle: 'Agriculture',
     tagline: 'Growing a Prosperous Nation',
     accentColor: '#5a8a3c', lightColor: '#dff0d8',
-    description: "The Ministry of Agriculture formulates and implements national agricultural policies to ensure food security and rural prosperity. It oversees paddy cultivation, vegetable farming, irrigation infrastructure, fertiliser distribution and research into sustainable farming practices for Sri Lanka's 1.8 million farming families.",
+    description: "The Ministry of Agriculture formulates and implements national agricultural policies to ensure food security.",
     services: ['Crop disease & pest outbreaks', 'Irrigation failures', 'Fertiliser supply issues', 'Farming infrastructure damage', 'Market price complaints', 'Agricultural subsidy queries'],
     hotline: '1920', email: 'info@agrimin.gov.lk', website: 'www.agrimin.gov.lk',
     address: 'Govijana Mandiraya, 80/5 Rajamalwatta Road, Battaramulla',
@@ -102,7 +105,7 @@ const DEPT_DATA = {
     shortTitle: 'Education',
     tagline: 'Knowledge Builds the Future',
     accentColor: '#7b2d8b', lightColor: '#ede0f5',
-    description: "The Ministry of Education governs Sri Lanka's school education system, one of the most progressive in South Asia with a 92%+ literacy rate. It manages over 10,000 government schools, curriculum development, teacher training, examinations and scholarship programmes ensuring quality education for every child.",
+    description: "The Ministry of Education governs Sri Lanka's school education system.",
     services: ['School infrastructure damage', 'Teacher shortage reports', 'Examination irregularities', 'Scholarship grievances', 'School transportation issues', 'Facility sanitation problems'],
     hotline: '1979', email: 'info@moe.gov.lk', website: 'www.moe.gov.lk',
     address: 'Isurupaya, Battaramulla',
@@ -117,7 +120,7 @@ const DEPT_DATA = {
     shortTitle: 'Roads & Highways',
     tagline: 'Connecting Communities Across Sri Lanka',
     accentColor: '#6c4e27', lightColor: '#f2e8de',
-    description: 'The Road Development Authority (RDA) is responsible for the planning, design, construction and maintenance of the national road network spanning over 12,000 km of highways and expressways. Established under Act No. 73 of 1981, RDA ensures safe and efficient road infrastructure across the island.',
+    description: 'The Road Development Authority (RDA) is responsible for planning, design, construction and maintenance of the national road network.',
     services: ['Potholes & road damage', 'Broken streetlights', 'Highway safety hazards', 'Bridge structural issues', 'Road marking complaints', 'Unauthorized road excavations'],
     hotline: '1955', email: 'info@rda.gov.lk', website: 'www.rda.gov.lk',
     address: 'P.O. Box 1533, 8th Floor, Sethsiripaya, Battaramulla',
@@ -126,79 +129,10 @@ const DEPT_DATA = {
     stats: [{ label: 'Road Network', value: '12,000 km' }, { label: 'Expressways', value: '340 km' }, { label: 'Bridges', value: '4,200+' }],
     image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80',
   },
-  environment: {
-    key: 'environment', icon: '🌿',
-    title: 'Central Environmental Authority',
-    shortTitle: 'Environment',
-    tagline: 'Protecting Nature, Sustaining Life',
-    accentColor: '#1D9E75', lightColor: '#d4f5ec',
-    description: 'The Central Environmental Authority (CEA) is the national regulatory body for environmental protection in Sri Lanka, established under the National Environmental Act No. 47 of 1980. CEA enforces environmental standards, grants pollution control licences and investigates violations to safeguard Sri Lanka\'s rich biodiversity.',
-    services: ['Illegal deforestation', 'Industrial pollution', 'Wildlife crime reports', 'Coastal erosion issues', 'Air & noise pollution', 'Illegal mining activities'],
-    hotline: '1992', email: 'info@cea.lk', website: 'www.cea.lk',
-    address: 'No. 104, Denzil Kobbekaduwa Mawatha, Battaramulla',
-    workingHours: 'Mon – Fri: 8:30 AM – 4:30 PM',
-    osmQuery: 'environmental authority',
-    stats: [{ label: 'Forest Cover', value: '33%' }, { label: 'Protected Areas', value: '22%' }, { label: 'Species', value: '3,500+' }],
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80',
-  },
-  transport: {
-    key: 'transport', icon: '🚌',
-    title: 'National Transport Commission',
-    shortTitle: 'Transport',
-    tagline: 'Moving Sri Lanka, Every Day',
-    accentColor: '#185FA5', lightColor: '#B5D4F4',
-    description: 'The National Transport Commission (NTC) regulates public passenger transport services in Sri Lanka, licensing bus routes, setting fare structures and ensuring service quality standards. NTC coordinates with the Sri Lanka Transport Board and private operators to maintain a reliable island-wide bus network.',
-    services: ['Bus route service failures', 'Overcharging & fare disputes', 'Unsafe vehicle conditions', 'Driver misconduct', 'Route schedule problems', 'Bus stop infrastructure issues'],
-    hotline: '1955', email: 'info@ntc.gov.lk', website: 'www.ntc.gov.lk',
-    address: 'Samagipaya, 178 Baseline Road, Colombo 9',
-    workingHours: 'Mon – Fri: 8:30 AM – 4:30 PM',
-    osmQuery: 'bus station',
-    stats: [{ label: 'Routes', value: '8,500+' }, { label: 'Passengers/Day', value: '5M+' }, { label: 'Operators', value: '12,000+' }],
-    image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80',
-  },
-  municipal: {
-    key: 'municipal', icon: '🏛️',
-    title: 'Municipal Council',
-    shortTitle: 'Municipal Council',
-    tagline: 'Governance at the Heart of Your Community',
-    accentColor: '#042C53', lightColor: '#ccd6e0',
-    description: 'Municipal Councils are the primary urban local government authorities in Sri Lanka, responsible for planning, infrastructure, public health, licensing and community development within their jurisdictions. They serve as the closest link between citizens and government, handling day-to-day civic needs at the grassroots level.',
-    services: ['Building permit violations', 'Noise & nuisance complaints', 'Encroachment on public land', 'Unauthorized constructions', 'Public amenity maintenance', 'Business licence violations'],
-    hotline: '1920', email: 'info@mc.lk', website: 'www.mc.lk',
-    address: 'Town Hall, Colombo 7',
-    workingHours: 'Mon – Fri: 8:30 AM – 4:30 PM',
-    osmQuery: 'town hall',
-    stats: [{ label: 'Councils', value: '23' }, { label: 'Urban Pop.', value: '18.2%' }, { label: 'Services', value: '50+' }],
-    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',
-  },
-  labour: {
-    key: 'labour', icon: '💼',
-    title: 'Department of Labour',
-    shortTitle: 'Labour & Employment',
-    tagline: "Protecting Workers' Rights Nationwide",
-    accentColor: '#c0392b', lightColor: '#fdecea',
-    description: 'The Department of Labour enforces labour laws and protects the rights of workers across all sectors in Sri Lanka. It investigates workplace violations, mediates industrial disputes, administers workmen\'s compensation and ensures compliance with Factories Ordinance and Employment of Women, Young Persons and Children Act.',
-    services: ['Unfair dismissal complaints', 'Workplace safety hazards', 'Wage & overtime violations', 'Child labour reports', 'Maternity leave disputes', 'Illegal working conditions'],
-    hotline: '1931', email: 'info@labourdept.gov.lk', website: 'www.labourdept.gov.lk',
-    address: 'Narahenpita Labour Secretariat, Colombo 5',
-    workingHours: 'Mon – Fri: 8:30 AM – 4:30 PM',
-    osmQuery: 'labour office',
-    stats: [{ label: 'Workforce', value: '8.3M' }, { label: 'Inspectors', value: '500+' }, { label: 'Cases/Year', value: '15,000+' }],
-    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',
-  },
 };
 
 /* ─────────────────────────────────────────────
-   MOCK COMPLAINTS
-───────────────────────────────────────────── */
-const MOCK_COMPLAINTS = [
-  { id: 'CMP-2024-0041', title: 'Pipe burst near Kandy Road', status: 'In Progress', date: '2024-05-10', priority: 'High' },
-  { id: 'CMP-2024-0038', title: 'No water supply for 3 days', status: 'Resolved', date: '2024-05-07', priority: 'Critical' },
-  { id: 'CMP-2024-0029', title: 'Contaminated water smell', status: 'Under Review', date: '2024-04-29', priority: 'Medium' },
-];
-
-/* ─────────────────────────────────────────────
-   LEAFLET MAP  (OpenStreetMap — 100% free)
+   LEAFLET MAP (Department offices - using window.L to avoid react-leaflet conflict)
 ───────────────────────────────────────────── */
 async function searchNominatim(map, L, osmQuery, accentColor, officeIcon, center) {
   const bbox = center
@@ -235,36 +169,36 @@ const LeafletMap = ({ osmQuery, accentColor }) => {
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
-    // Inject Leaflet CSS
-    if (!document.getElementById('leaflet-css')) {
-      const l = document.createElement('link');
-      l.id = 'leaflet-css'; l.rel = 'stylesheet';
-      l.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-      document.head.appendChild(l);
-    }
-
     const boot = () => {
-      if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; }
       if (!containerRef.current) return;
-      const L = window.L;
+      const wL = window.L;
+      if (!wL) return;
 
-      const map = L.map(containerRef.current, {
+      // Destroy existing map if any
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+
+      // Clear leaflet internal id
+      delete containerRef.current._leaflet_id;
+
+      const map = wL.map(containerRef.current, {
         center: [7.8731, 80.7718], zoom: 8,
         zoomControl: true, scrollWheelZoom: false,
       });
       mapRef.current = map;
 
-      // CartoDB Dark Matter — free, no key
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors © <a href="https://carto.com/">CARTO</a>',
+      wL.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OSM contributors © CARTO',
         subdomains: 'abcd', maxZoom: 19,
       }).addTo(map);
 
-      const userIcon = L.divIcon({
+      const userIcon = wL.divIcon({
         html: `<div style="width:14px;height:14px;background:#1D9E75;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(29,158,117,.3)"></div>`,
         className: '', iconSize: [14, 14], iconAnchor: [7, 7],
       });
-      const officeIcon = c => L.divIcon({
+      const officeIcon = c => wL.divIcon({
         html: `<div style="width:26px;height:26px;background:${c};border:2px solid rgba(255,255,255,.85);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,.45)"></div>`,
         className: '', iconSize: [26, 26], iconAnchor: [13, 26],
       });
@@ -274,33 +208,53 @@ const LeafletMap = ({ osmQuery, accentColor }) => {
             async pos => {
               const c = [pos.coords.latitude, pos.coords.longitude];
               map.setView(c, 13);
-              L.marker(c, { icon: userIcon }).addTo(map).bindPopup('<b>📍 Your Location</b>').openPopup();
-              await searchNominatim(map, L, osmQuery, accentColor, officeIcon, c);
+              wL.marker(c, { icon: userIcon }).addTo(map).bindPopup('<b>📍 Your Location</b>').openPopup();
+              await searchNominatim(map, wL, osmQuery, accentColor, officeIcon, c);
               setStatus('ready');
             },
             async () => {
-              await searchNominatim(map, L, osmQuery, accentColor, officeIcon, null);
+              await searchNominatim(map, wL, osmQuery, accentColor, officeIcon, null);
               setStatus('ready');
             }
         );
       } else {
-        searchNominatim(map, L, osmQuery, accentColor, officeIcon, null).then(() => setStatus('ready'));
+        searchNominatim(map, wL, osmQuery, accentColor, officeIcon, null).then(() => setStatus('ready'));
       }
     };
 
-    if (!window.L) {
-      if (!document.getElementById('leaflet-js')) {
-        const s = document.createElement('script');
-        s.id = 'leaflet-js';
-        s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-        s.onload = boot;
-        document.head.appendChild(s);
-      } else {
-        const t = setInterval(() => { if (window.L) { clearInterval(t); boot(); } }, 80);
+    const timer = setTimeout(() => {
+      if (window.L) {
+        boot();
+        return;
       }
-    } else { boot(); }
 
-    return () => { if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
+      const existing = document.getElementById('dept-leaflet-js');
+      if (existing) {
+        const t = setInterval(() => { if (window.L) { clearInterval(t); boot(); } }, 80);
+        return;
+      }
+
+      if (!document.getElementById('dept-leaflet-css')) {
+        const l = document.createElement('link');
+        l.id = 'dept-leaflet-css'; l.rel = 'stylesheet';
+        l.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(l);
+      }
+
+      const s = document.createElement('script');
+      s.id = 'dept-leaflet-js';
+      s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      s.onload = () => setTimeout(boot, 100);
+      document.head.appendChild(s);
+    }, 150);
+
+    return () => {
+      clearTimeout(timer);
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
   }, [osmQuery, accentColor]);
 
   return (
@@ -317,15 +271,96 @@ const LeafletMap = ({ osmQuery, accentColor }) => {
 };
 
 /* ─────────────────────────────────────────────
+   LOCATION PICKER for complaint modal
+───────────────────────────────────────────── */
+const ComplaintMapPicker = ({ onSelect }) => {
+  const containerRef = useRef(null);
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    const boot = () => {
+      if (!containerRef.current || !window.L) return;
+
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+
+      delete containerRef.current._leaflet_id;
+
+      const L = window.L;
+      const map = L.map(containerRef.current, {
+        center: [7.8731, 80.7718], zoom: 8, scrollWheelZoom: false
+      });
+      mapRef.current = map;
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      let marker = null;
+      map.on('click', async (e) => {
+        if (marker) marker.remove();
+        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+        onSelect(e.latlng);
+      });
+    };
+
+    const timer = setTimeout(() => {
+      if (window.L) { boot(); }
+      else {
+        const t = setInterval(() => { if (window.L) { clearInterval(t); boot(); } }, 100);
+      }
+    }, 150);
+
+    return () => {
+      clearTimeout(timer);
+      if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; }
+    };
+  }, []);
+
+  return (
+      <div
+          ref={containerRef}
+          style={{ height: '220px', width: '100%', borderRadius: '8px', border: '1.5px solid #d0dae6' }}
+      />
+  );
+};
+
+/* ─────────────────────────────────────────────
    MAIN PAGE
 ───────────────────────────────────────────── */
 const DepartmentPage = () => {
   const { dept } = useParams();
   const navigate = useNavigate();
+  const { user, isSignedIn, isLoaded } = useUser();
   const data = DEPT_DATA[dept];
   const [showComplaint, setShowComplaint] = useState(false);
   const [showStatus, setShowStatus] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [profile, setProfile] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  // Auth guard — redirect if not signed in as citizen
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (!isSignedIn) { navigate('/login'); return; }
+    const role = user?.publicMetadata?.role;
+    if (role && role !== 'citizen') return; // agents/admins can view
+  }, [isLoaded, isSignedIn, user, navigate]);
+
+  // Fetch citizen profile
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || !user) return;
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/profile/${user.id}`);
+        if (res.ok) setProfile(await res.json());
+      } catch (e) { console.error(e); }
+      finally { setProfileLoading(false); }
+    };
+    fetchProfile();
+  }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -341,15 +376,21 @@ const DepartmentPage = () => {
     });
   }, [dept]);
 
+  if (!isLoaded || profileLoading) return (
+      <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="dp-map-spinner" />
+      </div>
+  );
+
   if (!data) return (
       <div className="dp-not-found">
         <h2>Department not found</h2>
-        <button onClick={() => navigate('/report')}>← Back to Departments</button>
+        <button onClick={() => navigate('/departments')}>← Back to Departments</button>
       </div>
   );
 
   const statusColor = s =>
-      s === 'Resolved' ? '#1D9E75' : s === 'In Progress' ? '#185FA5' : s === 'Under Review' ? '#e6a817' : '#888';
+      s === 'Resolved' ? '#1D9E75' : s === 'In Progress' ? '#185FA5' : s === 'Under Review' ? '#e6a817' : s === 'Rejected' ? '#e63946' : '#888';
 
   return (
       <div className="dp-root" style={{ '--accent': data.accentColor, '--light': data.lightColor }}>
@@ -359,7 +400,7 @@ const DepartmentPage = () => {
           <div className="dp-hero-overlay" />
           <img src={data.image} alt={data.title} className="dp-hero-bg" />
           <div className="dp-hero-content">
-            <button className="dp-back-btn" onClick={() => navigate('/report')}>← All Departments</button>
+            <button className="dp-back-btn" onClick={() => navigate('/departments')}>← All Departments</button>
             <div className="dp-hero-icon">{data.icon}</div>
             <h1 className="dp-hero-title">{data.title}</h1>
             <p className="dp-hero-tagline">{data.tagline}</p>
@@ -451,7 +492,7 @@ const DepartmentPage = () => {
           </div>
         </main>
 
-        {/* MAP — bottom left, fixed */}
+        {/* MAP */}
         <div className="dp-map-container dp-animate">
           <div className="dp-map-header">
             <span className="dp-map-icon">{data.icon}</span>
@@ -463,8 +504,24 @@ const DepartmentPage = () => {
           <LeafletMap osmQuery={data.osmQuery} accentColor={data.accentColor} />
         </div>
 
-        {showComplaint && <ComplaintModal data={data} onClose={() => setShowComplaint(false)} />}
-        {showStatus && <StatusModal complaints={MOCK_COMPLAINTS} dept={data.shortTitle} statusColor={statusColor} onClose={() => setShowStatus(false)} />}
+        {showComplaint && (
+            <ComplaintModal
+                data={data}
+                profile={profile}
+                user={user}
+                onClose={() => setShowComplaint(false)}
+                onProfileRedirect={() => { setShowComplaint(false); navigate('/profile'); }}
+            />
+        )}
+        {showStatus && (
+            <StatusModal
+                user={user}
+                category={data.shortTitle}
+                deptIcon={data.icon}
+                statusColor={statusColor}
+                onClose={() => setShowStatus(false)}
+            />
+        )}
       </div>
   );
 };
@@ -472,26 +529,125 @@ const DepartmentPage = () => {
 /* ─────────────────────────────────────────────
    COMPLAINT MODAL
 ───────────────────────────────────────────── */
-const ComplaintModal = ({ data, onClose }) => {
+const ComplaintModal = ({ data, profile, user, onClose, onProfileRedirect }) => {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [refNum, setRefNum] = useState('');
+  const [locationMode, setLocationMode] = useState('profile'); // 'profile' | 'manual'
+  const [mapPosition, setMapPosition] = useState(null);
+  const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const fileRef = useRef();
+  const [errors, setErrors] = useState({});
+
   const [form, setForm] = useState({
-    name: '', nic: '', phone: '', email: '',
-    issue: data.services[0], description: '', location: '', priority: 'Medium',
+    title: '',
+    description: '',
+    location: profile?.location || '',
+    priorityLevel: 'Medium',
   });
-  const set = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-  const refNum = useRef(`CMP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`);
+
+  // No profile — show error
+  if (!profile) {
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+          <div className="modal-box" onClick={e => e.stopPropagation()} style={{ textAlign: 'center', padding: '40px 32px' }}>
+            <div style={{ fontSize: '3rem', marginBottom: 16 }}>⚠️</div>
+            <h2 style={{ color: '#2c3e50', marginBottom: 8 }}>Profile Incomplete</h2>
+            <p style={{ color: '#6b7a8d', marginBottom: 24 }}>
+              Please update your profile details before filing a complaint.
+            </p>
+            <button className="dp-btn dp-btn-primary" onClick={onProfileRedirect}>
+              Go to Profile
+            </button>
+            <button className="dp-btn dp-btn-ghost" onClick={onClose} style={{ marginLeft: 12 }}>
+              Cancel
+            </button>
+          </div>
+        </div>
+    );
+  }
+
+  const handleChange = (e) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setErrors(prev => ({ ...prev, [e.target.name]: '' }));
+  };
+
+  const handleLocationSelect = async (latlng) => {
+    setMapPosition(latlng);
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json`);
+      const d = await res.json();
+      setForm(prev => ({ ...prev, location: d.display_name || `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}` }));
+    } catch {
+      setForm(prev => ({ ...prev, location: `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}` }));
+    }
+  };
+
+  const handleImages = (e) => {
+    const files = Array.from(e.target.files).slice(0, 5);
+    setImages(files);
+    setImagePreviews(files.map(f => URL.createObjectURL(f)));
+  };
+
+  const useProfileLocation = () => {
+    setLocationMode('profile');
+    setForm(prev => ({ ...prev, location: profile.location }));
+    setMapPosition(null);
+  };
+
+  const validate1 = () => {
+    const e = {};
+    if (!form.title.trim()) e.title = 'Title is required';
+    if (!form.description.trim()) e.description = 'Description is required';
+    return e;
+  };
+
+  const validate2 = () => {
+    const e = {};
+    if (!form.location.trim()) e.location = 'Please select or confirm a location';
+    return e;
+  };
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append('clerkId', user.id);
+      formData.append('title', form.title);
+      formData.append('description', form.description);
+      formData.append('category', data.shortTitle);
+      formData.append('location', form.location);
+      formData.append('priorityLevel', form.priorityLevel);
+      images.forEach(img => formData.append('images', img));
+
+      const res = await fetch('http://localhost:5000/api/complaints', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!res.ok) throw new Error('Failed to submit complaint');
+      const result = await res.json();
+      setRefNum(result.complaintId);
+      setSubmitted(true);
+    } catch (err) {
+      setErrors({ submit: err.message });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-box" onClick={e => e.stopPropagation()}>
           <button className="modal-close" onClick={onClose}>✕</button>
+
           {submitted ? (
               <div className="modal-success">
                 <div className="modal-success-icon">✅</div>
                 <h2>Complaint Submitted!</h2>
                 <p>Your reference number:</p>
-                <div className="modal-ref">{refNum.current}</div>
+                <div className="modal-ref">{refNum}</div>
                 <p className="modal-ref-note">Save this to track your complaint status.</p>
                 <button className="dp-btn dp-btn-primary" onClick={onClose}>Done</button>
               </div>
@@ -501,56 +657,148 @@ const ComplaintModal = ({ data, onClose }) => {
                   <span className="modal-dept-icon">{data.icon}</span>
                   <div><h2>File a Complaint</h2><p>{data.shortTitle} Department</p></div>
                 </div>
+
+                {/* Auto-filled info banner */}
+                <div className="modal-autofill-banner">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Details auto-filled from your profile: <strong>{profile.fullName}</strong> · {profile.phone}
+                </div>
+
                 <div className="modal-steps">
                   {[1,2,3].map(s => <div key={s} className={`modal-step ${step >= s ? 'active' : ''}`}><span>{s}</span></div>)}
                 </div>
 
+                {/* STEP 1 — Complaint Details */}
                 {step === 1 && (
                     <div className="modal-form-section">
-                      <h3>Personal Information</h3>
-                      <div className="modal-field-row">
-                        <div className="modal-field"><label>Full Name *</label><input name="name" value={form.name} onChange={set} placeholder="e.g. Kamal Perera" /></div>
-                        <div className="modal-field"><label>NIC Number *</label><input name="nic" value={form.nic} onChange={set} placeholder="e.g. 199012345678" /></div>
+                      <h3>Complaint Details</h3>
+                      <div className={`modal-field ${errors.title ? 'modal-field--error' : ''}`}>
+                        <label>Title <span>*</span></label>
+                        <input name="title" value={form.title} onChange={handleChange} placeholder="Brief title of the issue" />
+                        {errors.title && <span className="modal-error">{errors.title}</span>}
                       </div>
-                      <div className="modal-field-row">
-                        <div className="modal-field"><label>Phone *</label><input name="phone" value={form.phone} onChange={set} placeholder="e.g. 0711234567" /></div>
-                        <div className="modal-field"><label>Email</label><input name="email" value={form.email} onChange={set} placeholder="optional" /></div>
+                      <div className={`modal-field ${errors.description ? 'modal-field--error' : ''}`}>
+                        <label>Description <span>*</span></label>
+                        <textarea name="description" value={form.description} onChange={handleChange} rows={4} placeholder="Describe the issue in detail…" />
+                        {errors.description && <span className="modal-error">{errors.description}</span>}
                       </div>
-                      <button className="dp-btn dp-btn-primary" onClick={() => setStep(2)} disabled={!form.name || !form.nic || !form.phone}>Next →</button>
+                      <div className="modal-field">
+                        <label>Priority Level</label>
+                        <select name="priorityLevel" value={form.priorityLevel} onChange={handleChange}>
+                          {['Low', 'Medium', 'High', 'Critical'].map(p => <option key={p}>{p}</option>)}
+                        </select>
+                      </div>
+                      <button className="dp-btn dp-btn-primary" onClick={() => {
+                        const e = validate1();
+                        if (Object.keys(e).length > 0) { setErrors(e); return; }
+                        setStep(2);
+                      }}>Next →</button>
                     </div>
                 )}
 
+                {/* STEP 2 — Location & Images */}
                 {step === 2 && (
                     <div className="modal-form-section">
-                      <h3>Issue Details</h3>
-                      <div className="modal-field">
-                        <label>Issue Type *</label>
-                        <select name="issue" value={form.issue} onChange={set}>{data.services.map((s,i) => <option key={i}>{s}</option>)}</select>
+                      <h3>Location & Images</h3>
+
+                      <div className={`modal-field ${errors.location ? 'modal-field--error' : ''}`}>
+                        <label>Location <span>*</span></label>
+                        <div className="modal-location-btns">
+                          <button
+                              className={`modal-loc-btn ${locationMode === 'profile' ? 'active' : ''}`}
+                              onClick={useProfileLocation}
+                          >
+                            📍 Use Profile Location
+                          </button>
+                          <button
+                              className={`modal-loc-btn ${locationMode === 'manual' ? 'active' : ''}`}
+                              onClick={() => setLocationMode('manual')}
+                          >
+                            🗺️ Pick on Map
+                          </button>
+                        </div>
+
+                        {locationMode === 'profile' ? (
+                            <div className="modal-location-display">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#185FA5" strokeWidth="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                              </svg>
+                              {form.location}
+                            </div>
+                        ) : (
+                            <div className="modal-map-wrap">
+                              {form.location && (
+                                  <div className="modal-location-display" style={{ marginBottom: 8 }}>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#185FA5" strokeWidth="2">
+                                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                    {form.location}
+                                  </div>
+                              )}
+                              <ComplaintMapPicker onSelect={handleLocationSelect} />
+                            </div>
+                        )}
+                        {errors.location && <span className="modal-error">{errors.location}</span>}
                       </div>
+
                       <div className="modal-field">
-                        <label>Priority</label>
-                        <select name="priority" value={form.priority} onChange={set}>{['Low','Medium','High','Critical'].map(p => <option key={p}>{p}</option>)}</select>
+                        <label>Images <small>(optional, max 5)</small></label>
+                        <div className="modal-upload" onClick={() => fileRef.current.click()}>
+                          {imagePreviews.length > 0 ? (
+                              <div className="modal-image-previews">
+                                {imagePreviews.map((src, i) => (
+                                    <img key={i} src={src} alt={`img-${i}`} className="modal-img-thumb" />
+                                ))}
+                              </div>
+                          ) : (
+                              <>
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#185FA5" strokeWidth="1.5">
+                                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                  <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                <p>Click to upload photos</p>
+                                <small>JPG, PNG accepted</small>
+                              </>
+                          )}
+                        </div>
+                        <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleImages} style={{ display: 'none' }} />
                       </div>
-                      <div className="modal-field"><label>Location *</label><input name="location" value={form.location} onChange={set} placeholder="Street / City / District" /></div>
-                      <div className="modal-field"><label>Description *</label><textarea name="description" value={form.description} onChange={set} rows={4} placeholder="Describe the issue in detail…" /></div>
+
                       <div className="modal-btn-row">
                         <button className="dp-btn dp-btn-ghost" onClick={() => setStep(1)}>← Back</button>
-                        <button className="dp-btn dp-btn-primary" onClick={() => setStep(3)} disabled={!form.issue || !form.location || !form.description}>Next →</button>
+                        <button className="dp-btn dp-btn-primary" onClick={() => {
+                          const e = validate2();
+                          if (Object.keys(e).length > 0) { setErrors(e); return; }
+                          setStep(3);
+                        }}>Next →</button>
                       </div>
                     </div>
                 )}
 
+                {/* STEP 3 — Review */}
                 {step === 3 && (
                     <div className="modal-form-section">
                       <h3>Review & Submit</h3>
                       <div className="modal-review">
-                        {[['Name',form.name],['NIC',form.nic],['Phone',form.phone],['Issue',form.issue],['Priority',form.priority],['Location',form.location],['Description',form.description]].map(([k,v]) => (
+                        {[
+                          ['Name', profile.fullName],
+                          ['Phone', profile.phone],
+                          ['Department', data.shortTitle],
+                          ['Title', form.title],
+                          ['Priority', form.priorityLevel],
+                          ['Location', form.location],
+                          ['Description', form.description],
+                          ['Images', images.length > 0 ? `${images.length} image(s) attached` : 'None'],
+                        ].map(([k, v]) => (
                             <div className="modal-review-row" key={k}><span>{k}</span><strong>{v}</strong></div>
                         ))}
                       </div>
+                      {errors.submit && <div className="modal-submit-error">{errors.submit}</div>}
                       <div className="modal-btn-row">
                         <button className="dp-btn dp-btn-ghost" onClick={() => setStep(2)}>← Back</button>
-                        <button className="dp-btn dp-btn-primary" onClick={() => setSubmitted(true)}>✅ Submit Complaint</button>
+                        <button className="dp-btn dp-btn-primary" onClick={handleSubmit} disabled={submitting}>
+                          {submitting ? 'Submitting…' : '✅ Submit Complaint'}
+                        </button>
                       </div>
                     </div>
                 )}
@@ -562,50 +810,111 @@ const ComplaintModal = ({ data, onClose }) => {
 };
 
 /* ─────────────────────────────────────────────
-   STATUS TRACKER MODAL
+   STATUS TRACKER MODAL — real data from backend
 ───────────────────────────────────────────── */
-const StatusModal = ({ complaints, dept, statusColor, onClose }) => {
+const StatusModal = ({ user, category, deptIcon, statusColor, onClose }) => {
+  const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const res = await fetch(
+            `http://localhost:5000/api/complaints/user/${user.id}/category/${encodeURIComponent(category)}`
+        );
+        if (res.ok) setComplaints(await res.json());
+      } catch (e) { console.error(e); }
+      finally { setLoading(false); }
+    };
+    fetchComplaints();
+  }, [user.id, category]);
+
   const filtered = complaints.filter(c =>
-      c.id.toLowerCase().includes(search.toLowerCase()) ||
-      c.title.toLowerCase().includes(search.toLowerCase())
+      c.complaintId?.toLowerCase().includes(search.toLowerCase()) ||
+      c.title?.toLowerCase().includes(search.toLowerCase())
   );
+
+  const progressWidth = s =>
+      s === 'Resolved' ? '100%' : s === 'In Progress' ? '65%' : s === 'Under Review' ? '40%' : s === 'Rejected' ? '100%' : '15%';
+
   return (
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-box" onClick={e => e.stopPropagation()}>
           <button className="modal-close" onClick={onClose}>✕</button>
           <div className="modal-header">
-            <span style={{ fontSize: '1.6rem' }}>🔍</span>
-            <div><h2>Complaint Status</h2><p>{dept} Department</p></div>
+            <span style={{ fontSize: '1.6rem' }}>{deptIcon}</span>
+            <div><h2>My Complaints</h2><p>{category} Department</p></div>
           </div>
+
           <div className="modal-field" style={{ marginBottom: 16 }}>
             <input placeholder="Search by ID or title…" value={search} onChange={e => setSearch(e.target.value)} />
           </div>
+
           <div className="status-list">
-            {filtered.length === 0
-                ? <p style={{ textAlign: 'center', color: '#888', padding: 24 }}>No complaints found.</p>
-                : filtered.map(c => (
-                    <div className="status-card" key={c.id}>
+            {loading ? (
+                <div style={{ textAlign: 'center', padding: 32 }}><div className="dp-map-spinner" style={{ margin: '0 auto' }} /></div>
+            ) : filtered.length === 0 ? (
+                <div style={{ textAlign: 'center', color: '#888', padding: 32 }}>
+                  <p style={{ fontSize: '2rem' }}>📭</p>
+                  <p>No complaints found for this department.</p>
+                </div>
+            ) : (
+                filtered.map(c => (
+                    <div className="status-card" key={c._id}>
                       <div className="status-card-top">
-                        <span className="status-id">{c.id}</span>
+                        <span className="status-id">{c.complaintId}</span>
                         <span className="status-badge" style={{ background: statusColor(c.status) }}>{c.status}</span>
                       </div>
                       <p className="status-title">{c.title}</p>
+                      <p className="status-location">📍 {c.location}</p>
                       <div className="status-card-bottom">
-                        <span className="status-date">Filed: {c.date}</span>
-                        <span className={`status-priority priority-${c.priority.toLowerCase()}`}>{c.priority}</span>
+                        <span className="status-date">Filed: {new Date(c.createdAt).toLocaleDateString()}</span>
+                        <span className={`status-priority priority-${c.priorityLevel?.toLowerCase()}`}>{c.priorityLevel}</span>
                       </div>
                       <div className="status-progress-bar">
                         <div className="status-progress-fill" style={{
-                          width: c.status === 'Resolved' ? '100%' : c.status === 'In Progress' ? '60%' : '30%',
-                          background: statusColor(c.status),
+                          width: progressWidth(c.status),
+                          background: c.status === 'Rejected' ? '#e63946' : statusColor(c.status),
                         }} />
                       </div>
+
+                      {/* Agent Response */}
+                      {c.agentResponse && (
+                          <div style={{marginTop:10,background:'rgba(24,95,165,0.12)',border:'1px solid rgba(24,95,165,0.3)',borderRadius:8,padding:'10px 14px'}}>
+                            <p style={{fontSize:'0.68rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',color:'#B5D4F4',marginBottom:5}}>💬 Agent Response</p>
+                            <p style={{fontSize:'0.85rem',color:'rgba(241,239,232,0.88)',lineHeight:1.6,margin:0}}>{c.agentResponse}</p>
+                          </div>
+                      )}
+
+                      {/* Resolved */}
+                      {c.status === 'Resolved' && (
+                          <div style={{marginTop:8,background:'rgba(29,158,117,0.12)',border:'1px solid rgba(29,158,117,0.3)',borderRadius:8,padding:'10px 14px'}}>
+                            <p style={{fontSize:'0.68rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',color:'#34d399',marginBottom:5}}>✅ Resolved</p>
+                            <p style={{fontSize:'0.82rem',color:'rgba(241,239,232,0.7)',margin:0}}>
+                              {c.resolvedDate ? `Resolved on ${new Date(c.resolvedDate).toLocaleDateString()}` : 'Issue resolved'}
+                            </p>
+                            {c.resolvedImageUrls?.length > 0 && (
+                                <div style={{display:'flex',gap:6,marginTop:8,flexWrap:'wrap'}}>
+                                  {c.resolvedImageUrls.map((url,i) => (
+                                      <img key={i} src={`http://localhost:5000${url}`} alt="" style={{width:64,height:64,objectFit:'cover',borderRadius:6,cursor:'pointer',border:'1px solid rgba(29,158,117,0.3)'}} onClick={()=>window.open(`http://localhost:5000${url}`)} />
+                                  ))}
+                                </div>
+                            )}
+                          </div>
+                      )}
+
+                      {/* Rejected */}
+                      {c.status === 'Rejected' && c.adminNote && (
+                          <div style={{marginTop:8,background:'rgba(220,38,38,0.1)',border:'1px solid rgba(220,38,38,0.3)',borderRadius:8,padding:'10px 14px'}}>
+                            <p style={{fontSize:'0.68rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',color:'#f87171',marginBottom:5}}>❌ Rejected</p>
+                            <p style={{fontSize:'0.82rem',color:'rgba(241,239,232,0.7)',margin:0}}>{c.adminNote}</p>
+                          </div>
+                      )}
                     </div>
                 ))
-            }
+            )}
           </div>
-          <p className="status-note">* Demo data — connect backend for live tracking.</p>
         </div>
       </div>
   );

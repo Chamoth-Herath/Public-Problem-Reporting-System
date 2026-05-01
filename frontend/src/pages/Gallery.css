@@ -44,7 +44,113 @@
     color: #B5D4F4;
     line-height: 1.7;
 }
+/* ── Add these to the bottom of Gallery.css ── */
 
+/* Wide lightbox for before/after */
+.lightbox-box--wide {
+    max-width: 900px;
+    width: 95vw;
+}
+
+/* Before & after images side by side */
+.lb-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.lb-img-section {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.lb-img-section img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+/* Labels */
+.lb-img-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    z-index: 2;
+}
+
+.lb-img-label.problem {
+    background: rgba(230, 57, 70, 0.9);
+    color: #fff;
+}
+
+.lb-img-label.resolved {
+    background: rgba(29, 158, 117, 0.9);
+    color: #fff;
+}
+
+.lb-img-label.pending {
+    background: rgba(232, 160, 32, 0.9);
+    color: #fff;
+}
+
+/* Not resolved placeholder */
+.lb-not-resolved {
+    display: flex;
+    flex-direction: column;
+}
+
+.lb-pending-placeholder {
+    height: 260px;
+    background: #f8fafc;
+    border: 2px dashed #d0dae6;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.lb-pending-placeholder p {
+    color: #6b7a8d;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Resolved badge on card */
+.cc-resolved-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(29, 158, 117, 0.9);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    z-index: 2;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .lb-images {
+        grid-template-columns: 1fr;
+    }
+    .lb-img-section img,
+    .lb-pending-placeholder {
+        height: 200px;
+    }
+}
 /* ── TAGS ── */
 .g-tag {
     display: inline-block;

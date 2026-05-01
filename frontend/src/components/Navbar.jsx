@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import emblem from '../assets/emblem.png';
 import './Navbar.css';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useUser, useClerk } from '@clerk/clerk-react';
 
 const Navbar = () => {
-    const [menuOpen, setMenuOpen]     = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
+    const { user, isSignedIn } = useUser();
+    const { signOut } = useClerk();
+    const navigate = useNavigate();
 
-    /* ── Check login state on every route change ── */
+    const role = user?.publicMetadata?.role;
+
+    const handleLogout = () => {
+        signOut();
+        navigate('/');
+    };
+
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
         setMenuOpen(false);
     }, [location]);
 
@@ -49,6 +56,40 @@ const Navbar = () => {
     const toggleMenu = () => setMenuOpen(prev => !prev);
     const closeMenu  = () => setMenuOpen(false);
 
+    const AuthButtons = ({ onClick }) => (
+        <>
+            {isSignedIn ? (
+                role === 'admin' ? (
+                    <>
+                        <Link to="/admin" className="btn-profile" onClick={onClick}>Dashboard</Link>
+                        <button onClick={() => { handleLogout(); onClick?.(); }} className="btn-signin">Logout</button>
+                    </>
+                ) : role === 'agent' ? (
+                    <>
+                        <Link to="/agent" className="btn-profile" onClick={onClick}>Dashboard</Link>
+                        <button onClick={() => { handleLogout(); onClick?.(); }} className="btn-signin">Logout</button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/profile" className="btn-profile" onClick={onClick}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            Profile
+                        </Link>
+                        <button onClick={() => { handleLogout(); onClick?.(); }} className="btn-signin">Logout</button>
+                    </>
+                )
+            ) : (
+                <>
+                    <Link to="/register" className="btn-signup" onClick={onClick}>Sign Up</Link>
+                    <Link to="/login" className="btn-signin" onClick={onClick}>Sign In</Link>
+                </>
+            )}
+        </>
+    );
+
     return (
         <>
             <nav className="navbar">
@@ -66,24 +107,12 @@ const Navbar = () => {
                         <li><NavLink to="/about">About</NavLink></li>
                         <li><NavLink to="/services">Services</NavLink></li>
                         <li><NavLink to="/gallery">Gallery</NavLink></li>
+
                     </ul>
                 </div>
 
                 <div className="navbar-right">
-                    {isLoggedIn ? (
-                        <Link to="/profile" className="btn-profile" title="My Profile">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
-                            </svg>
-                            Profile
-                        </Link>
-                    ) : (
-                        <>
-                            <Link to="/signup" className="btn-signup">Sign Up</Link>
-                            <Link to="/signin" className="btn-signin">Sign In</Link>
-                        </>
-                    )}
+                    <AuthButtons />
                 </div>
 
                 <button
@@ -118,27 +147,14 @@ const Navbar = () => {
                 </div>
 
                 <ul className="mobile-menu-links">
-                    <li><NavLink to="/"       end onClick={closeMenu}>Home</NavLink></li>
-                    <li><NavLink to="/about"      onClick={closeMenu}>About</NavLink></li>
-                    <li><NavLink to="/services"   onClick={closeMenu}>Services</NavLink></li>
-                    <li><NavLink to="/gallery"    onClick={closeMenu}>Gallery</NavLink></li>
+                    <li><NavLink to="/"         end onClick={closeMenu}>Home</NavLink></li>
+                    <li><NavLink to="/about"        onClick={closeMenu}>About</NavLink></li>
+                    <li><NavLink to="/services"     onClick={closeMenu}>Services</NavLink></li>
+                    <li><NavLink to="/gallery"      onClick={closeMenu}>Gallery</NavLink></li>
                 </ul>
 
                 <div className="mobile-menu-auth">
-                    {isLoggedIn ? (
-                        <Link to="/profile" className="btn-profile" onClick={closeMenu}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
-                            </svg>
-                            Profile
-                        </Link>
-                    ) : (
-                        <>
-                            <Link to="/signup" className="btn-signup" onClick={closeMenu}>Sign Up</Link>
-                            <Link to="/signin" className="btn-signin" onClick={closeMenu}>Sign In</Link>
-                        </>
-                    )}
+                    <AuthButtons onClick={closeMenu} />
                 </div>
             </div>
         </>

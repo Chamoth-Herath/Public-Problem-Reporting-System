@@ -1,32 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Chat.css';
+import { sendMessageToBot } from "../services/chatApi";
 
-const BOT_RESPONSES = {
-    water: "For water supply issues, please file a complaint at /report/water or call the NWSDB hotline at 1954.",
-    electricity: "For electricity issues, contact CEB at 1987 or file a complaint at /report/electricity.",
-    garbage: "For garbage collection issues, contact your Municipal Council at 1920 or report at /report/garbage.",
-    emergency: "For emergencies, please call 119 (Police), 1990 (Ambulance), or 111 (Fire). You can also use our Emergency page.",
-    complaint: "To file a complaint, go to Services > Public Problem Reporting and select your department.",
-    status: "To track your complaint status, visit the department page and click 'Track Complaint Status'.",
-    hello: "Hello! I'm the Civic Portal Assistant. I can help you with complaints, emergencies, and government services. How can I help?",
-    hi: "Hi there! How can I assist you today with our civic services?",
-    help: "I can help you with: filing complaints, emergency services, tracking complaint status, department information, and weather forecasts.",
-    default: "I'm sorry, I didn't quite understand that. Try asking about water, electricity, garbage, emergency services, or complaint status."
-};
+// const BOT_RESPONSES = {
+//     water: "For water supply issues, please file a complaint at /report/water or call the NWSDB hotline at 1954.",
+//     electricity: "For electricity issues, contact CEB at 1987 or file a complaint at /report/electricity.",
+//     garbage: "For garbage collection issues, contact your Municipal Council at 1920 or report at /report/garbage.",
+//     emergency: "For emergencies, please call 119 (Police), 1990 (Ambulance), or 111 (Fire). You can also use our Emergency page.",
+//     complaint: "To file a complaint, go to Services > Public Problem Reporting and select your department.",
+//     status: "To track your complaint status, visit the department page and click 'Track Complaint Status'.",
+//     hello: "Hello! I'm the Civic Portal Assistant. I can help you with complaints, emergencies, and government services. How can I help?",
+//     hi: "Hi there! How can I assist you today with our civic services?",
+//     help: "I can help you with: filing complaints, emergency services, tracking complaint status, department information, and weather forecasts.",
+//     default: "I'm sorry, I didn't quite understand that. Try asking about water, electricity, garbage, emergency services, or complaint status."
+// };
 
-const getBotResponse = (message) => {
-    const msg = message.toLowerCase();
-    if (msg.includes('water') || msg.includes('pipe')) return BOT_RESPONSES.water;
-    if (msg.includes('electric') || msg.includes('power') || msg.includes('ceb')) return BOT_RESPONSES.electricity;
-    if (msg.includes('garbage') || msg.includes('waste') || msg.includes('trash')) return BOT_RESPONSES.garbage;
-    if (msg.includes('emergency') || msg.includes('ambulance') || msg.includes('fire') || msg.includes('police')) return BOT_RESPONSES.emergency;
-    if (msg.includes('complaint') || msg.includes('report') || msg.includes('file')) return BOT_RESPONSES.complaint;
-    if (msg.includes('status') || msg.includes('track')) return BOT_RESPONSES.status;
-    if (msg.includes('hello') || msg.includes('hey')) return BOT_RESPONSES.hello;
-    if (msg.includes('hi')) return BOT_RESPONSES.hi;
-    if (msg.includes('help')) return BOT_RESPONSES.help;
-    return BOT_RESPONSES.default;
-};
+// const getBotResponse = (message) => {
+//     const msg = message.toLowerCase();
+//     if (msg.includes('water') || msg.includes('pipe')) return BOT_RESPONSES.water;
+//     if (msg.includes('electric') || msg.includes('power') || msg.includes('ceb')) return BOT_RESPONSES.electricity;
+//     if (msg.includes('garbage') || msg.includes('waste') || msg.includes('trash')) return BOT_RESPONSES.garbage;
+//     if (msg.includes('emergency') || msg.includes('ambulance') || msg.includes('fire') || msg.includes('police')) return BOT_RESPONSES.emergency;
+//     if (msg.includes('complaint') || msg.includes('report') || msg.includes('file')) return BOT_RESPONSES.complaint;
+//     if (msg.includes('status') || msg.includes('track')) return BOT_RESPONSES.status;
+//     if (msg.includes('hello') || msg.includes('hey')) return BOT_RESPONSES.hello;
+//     if (msg.includes('hi')) return BOT_RESPONSES.hi;
+//     if (msg.includes('help')) return BOT_RESPONSES.help;
+//     return BOT_RESPONSES.default;
+// };
 
 const AGENT_DEPARTMENTS = [
     { id: 'water', label: 'Water Supply', icon: '💧' },
@@ -55,20 +56,46 @@ const Chat = ({ onClose }) => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [botMessages, agentMessages, isTyping]);
 
-    const sendBotMessage = () => {
+    // Simulated bot response
+    const sendBotMessage = async () => {
         if (!input.trim()) return;
-        const userMsg = { id: Date.now(), from: 'user', text: input, time: new Date() };
+
+        const userMsg = {
+            id: crypto.randomUUID(),
+            from: 'user',
+            text: input,
+            time: new Date()
+        };
+
         setBotMessages(prev => [...prev, userMsg]);
         setInput('');
         setIsTyping(true);
 
-        // TODO: Replace with backend API call
-        // await axios.post('/api/chatbot', { message: input })
-        setTimeout(() => {
-            const botMsg = { id: Date.now() + 1, from: 'bot', text: getBotResponse(input), time: new Date() };
+        try {
+            const data = await sendMessageToBot(input);
+
+            const botMsg = {
+                id: crypto.randomUUID(),
+                from: 'bot',
+                text: data.text,
+                time: new Date()
+            };
+
             setBotMessages(prev => [...prev, botMsg]);
+
+        } catch {
+            setBotMessages(prev => [
+                ...prev,
+                {
+                    id: crypto.randomUUID(),
+                    from: 'bot',
+                    text: "⚠️ Server error. Try again.",
+                    time: new Date()
+                }
+            ]);
+        } finally {
             setIsTyping(false);
-        }, 1000 + Math.random() * 800);
+        }
     };
 
     const sendAgentMessage = () => {

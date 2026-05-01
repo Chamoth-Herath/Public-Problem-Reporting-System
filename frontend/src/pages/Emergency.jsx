@@ -17,37 +17,32 @@ const STATUS_STEPS = [
 
 const STORAGE_KEY = 'em_active_request';
 
-/* ─────────────────────────────────────────────
-   LEAFLET LOADER
-───────────────────────────────────────────── */
+/* ─── LEAFLET LOADER ─── */
 function loadLeaflet(onReady) {
     if (!document.getElementById('leaflet-css')) {
         const link = document.createElement('link');
         link.id = 'leaflet-css'; link.rel = 'stylesheet';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+        link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
         document.head.appendChild(link);
     }
     if (window.L) { onReady(); return; }
     if (!document.getElementById('leaflet-js')) {
         const s = document.createElement('script');
         s.id = 'leaflet-js';
-        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-        s.crossOrigin = 'anonymous'; s.onload = onReady;
+        s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        s.onload = onReady;
         document.head.appendChild(s);
     } else {
         const t = setInterval(() => { if (window.L) { clearInterval(t); onReady(); } }, 80);
     }
 }
 
-/* ─────────────────────────────────────────────
-   MAP 1 — NEARBY SERVICES
-───────────────────────────────────────────── */
+/* ─── MAP 1 — NEARBY SERVICES ─── */
 const NearbyMap = ({ service }) => {
     const containerRef = useRef(null);
     const mapRef = useRef(null);
     const [status, setStatus] = useState('loading');
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const timer = setTimeout(() => { loadLeaflet(() => initMap()); }, 200);
         return () => { clearTimeout(timer); if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
@@ -60,8 +55,8 @@ const NearbyMap = ({ service }) => {
         const map = L.map(containerRef.current, { center: [7.8731, 80.7718], zoom: 8, zoomControl: true, scrollWheelZoom: false });
         mapRef.current = map;
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© OSM © CARTO', subdomains: 'abcd', maxZoom: 19 }).addTo(map);
-        const userIcon = L.divIcon({ html: '<div style="width:14px;height:14px;background:#1D9E75;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(29,158,117,.3)"></div>', className: '', iconSize: [14, 14], iconAnchor: [7, 7] });
-        const serviceIcon = L.divIcon({ html: `<div style="width:28px;height:28px;background:${service.color};border:2px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,.4)"></div>`, className: '', iconSize: [28, 28], iconAnchor: [14, 28] });
+        const userIcon = L.divIcon({ html: '<div style="width:14px;height:14px;background:#1D9E75;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(29,158,117,.3)"></div>', className: '', iconSize: [14,14], iconAnchor: [7,7] });
+        const serviceIcon = L.divIcon({ html: `<div style="width:28px;height:28px;background:${service.color};border:2px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,.4)"></div>`, className: '', iconSize: [28,28], iconAnchor: [14,28] });
         const searchNominatim = async (center) => {
             try {
                 const bbox = center ? `&viewbox=${center[1]-.3},${center[0]+.3},${center[1]+.3},${center[0]-.3}&bounded=0` : '';
@@ -70,12 +65,15 @@ const NearbyMap = ({ service }) => {
                 places.forEach(p => {
                     L.marker([+p.lat, +p.lon], { icon: serviceIcon }).addTo(map).bindPopup(`<div style="font-family:sans-serif;min-width:150px"><strong>${p.display_name.split(',')[0]}</strong><br/><span style="font-size:.75rem;color:#555">${p.display_name.split(',').slice(1,3).join(',')}</span></div>`);
                 });
-                if (places.length > 0) { const pts = [...(center ? [center] : []), ...places.map(p => [+p.lat, +p.lon])]; map.fitBounds(L.latLngBounds(pts), { padding: [24, 24] }); }
+                if (places.length > 0) { const pts = [...(center ? [center] : []), ...places.map(p => [+p.lat, +p.lon])]; map.fitBounds(L.latLngBounds(pts), { padding: [24,24] }); }
             } catch(e) { console.warn('Nominatim error', e); }
             setStatus('ready');
         };
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(pos => { const c = [pos.coords.latitude, pos.coords.longitude]; map.setView(c, 13); L.marker(c, { icon: userIcon }).addTo(map).bindPopup('<b>📍 Your Location</b>').openPopup(); searchNominatim(c); }, () => searchNominatim(null));
+            navigator.geolocation.getCurrentPosition(
+                pos => { const c = [pos.coords.latitude, pos.coords.longitude]; map.setView(c, 13); L.marker(c, { icon: userIcon }).addTo(map).bindPopup('<b>📍 Your Location</b>').openPopup(); searchNominatim(c); },
+                () => searchNominatim(null)
+            );
         } else searchNominatim(null);
     };
 
@@ -87,16 +85,13 @@ const NearbyMap = ({ service }) => {
     );
 };
 
-/* ─────────────────────────────────────────────
-   MAP 2 — DRAGGABLE LOCATION PICKER
-───────────────────────────────────────────── */
+/* ─── MAP 2 — DRAGGABLE LOCATION PICKER ─── */
 const LocationPicker = React.memo(({ onLocationChange }) => {
     const containerRef = useRef(null);
     const mapRef = useRef(null);
     const markerRef = useRef(null);
     const [status, setStatus] = useState('loading');
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const timer = setTimeout(() => { loadLeaflet(() => initMap()); }, 200);
         return () => { clearTimeout(timer); if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
@@ -117,7 +112,7 @@ const LocationPicker = React.memo(({ onLocationChange }) => {
         const map = L.map(containerRef.current, { center: [7.8731, 80.7718], zoom: 8, zoomControl: true, scrollWheelZoom: true });
         mapRef.current = map;
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© OSM © CARTO', subdomains: 'abcd', maxZoom: 19 }).addTo(map);
-        const markerIcon = L.divIcon({ html: '<div style="width:32px;height:32px;background:#e74c3c;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 12px rgba(0,0,0,.5)"></div>', className: '', iconSize: [32, 32], iconAnchor: [16, 32] });
+        const markerIcon = L.divIcon({ html: '<div style="width:32px;height:32px;background:#e74c3c;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 12px rgba(0,0,0,.5)"></div>', className: '', iconSize: [32,32], iconAnchor: [16,32] });
         const placeMarker = (lat, lng) => {
             if (markerRef.current) map.removeLayer(markerRef.current);
             const marker = L.marker([lat, lng], { icon: markerIcon, draggable: true }).addTo(map);
@@ -140,7 +135,6 @@ const LocationPicker = React.memo(({ onLocationChange }) => {
         </div>
     );
 });
-
 /* ─────────────────────────────────────────────
    STATUS TRACKER COMPONENT
 ───────────────────────────────────────────── */
@@ -155,26 +149,19 @@ const StatusTracker = ({ request, onDismiss, onCancel }) => {
     const handleCancelRequest = async () => {
         setCancelling(true);
         try {
-            // Try DELETE first, fall back to PATCH, then cancel locally anyway
-            let cancelled = false;
             try {
-                const res = await fetch(`http://localhost:5000/api/emergency/${request.id}`, {
-                    method: 'DELETE',
-                });
-                if (res.ok) cancelled = true;
-            } catch { /* ignore */ }
-
-            if (!cancelled) {
+                const res = await fetch(`http://localhost:5000/api/emergency/${request.id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error();
+            } catch {
                 try {
                     await fetch(`http://localhost:5000/api/emergency/${request.id}/status`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ status: 'cancelled' }),
                     });
-                } catch { /* ignore */ }
+                } catch { }
             }
-        } catch { /* ignore all errors */ }
-        // Always cancel locally so user is never stuck
+        } catch { }
         setCancelling(false);
         setShowCancelConfirm(false);
         onCancel();
@@ -183,8 +170,6 @@ const StatusTracker = ({ request, onDismiss, onCancel }) => {
     return (
         <section className="em-tracking em-animate">
             <div className="em-tracking-card">
-
-                {/* Header */}
                 <div className="em-tracking-header" style={{ borderColor: service.color }}>
                     <span style={{ fontSize: 32 }}>{service.icon}</span>
                     <div>
@@ -195,14 +180,10 @@ const StatusTracker = ({ request, onDismiss, onCancel }) => {
                         {isDone ? '✓ Completed' : '● Active'}
                     </div>
                 </div>
-
-                {/* Info row */}
                 <div className="em-tracking-info">
                     <span>📞 {request.phone}</span>
                     <span>📍 {request.location?.substring(0, 60)}{request.location?.length > 60 ? '…' : ''}</span>
                 </div>
-
-                {/* Status stepper */}
                 <div className="em-stepper">
                     {STATUS_STEPS.map((step, i) => {
                         const isCompleted = i < currentIndex;
@@ -225,8 +206,6 @@ const StatusTracker = ({ request, onDismiss, onCancel }) => {
                         );
                     })}
                 </div>
-
-                {/* Current status message */}
                 <div className="em-status-msg" style={{ borderColor: service.color + '44', background: service.color + '11' }}>
                     {request.status === 'pending'    && '⏳ Your request has been received. Help is being dispatched…'}
                     {request.status === 'accepted'   && '✅ Your request has been accepted by the emergency service.'}
@@ -234,8 +213,6 @@ const StatusTracker = ({ request, onDismiss, onCancel }) => {
                     {request.status === 'arrived'    && '📍 Emergency unit has arrived at your location.'}
                     {request.status === 'resolved'   && '🎉 Your emergency has been resolved. Stay safe!'}
                 </div>
-
-                {/* Cancel confirmation modal */}
                 {showCancelConfirm && (
                     <div className="em-cancel-confirm">
                         <div className="em-cancel-confirm-icon">⚠️</div>
@@ -244,42 +221,25 @@ const StatusTracker = ({ request, onDismiss, onCancel }) => {
                             <span>Only cancel if the situation is no longer an emergency.</span>
                         </p>
                         <div className="em-cancel-confirm-actions">
-                            <button
-                                className="em-cancel-confirm-yes"
-                                onClick={handleCancelRequest}
-                                disabled={cancelling}
-                            >
+                            <button className="em-cancel-confirm-yes" onClick={handleCancelRequest} disabled={cancelling}>
                                 {cancelling ? 'Cancelling…' : 'Yes, Cancel Request'}
                             </button>
-                            <button
-                                className="em-cancel-confirm-no"
-                                onClick={() => setShowCancelConfirm(false)}
-                                disabled={cancelling}
-                            >
+                            <button className="em-cancel-confirm-no" onClick={() => setShowCancelConfirm(false)} disabled={cancelling}>
                                 No, Keep Active
                             </button>
                         </div>
                     </div>
                 )}
-
                 {isDone ? (
-                    <button className="em-submit-btn" style={{ background: '#1D9E75' }} onClick={onDismiss}>
-                        Back to Emergency Services
-                    </button>
+                    <button className="em-submit-btn" style={{ background: '#1D9E75' }} onClick={onDismiss}>Back to Emergency Services</button>
                 ) : (
                     <>
                         <p className="em-polling-note">
-                            🔄 Status updates automatically every 5 seconds
-                            <br />
+                            🔄 Status updates automatically every 5 seconds<br />
                             <span>For urgent help call <strong>{service.hotline}</strong> directly</span>
                         </p>
                         {isPending && !showCancelConfirm && (
-                            <button
-                                className="em-cancel-btn"
-                                onClick={() => setShowCancelConfirm(true)}
-                            >
-                                ✕ Cancel Request
-                            </button>
+                            <button className="em-cancel-btn" onClick={() => setShowCancelConfirm(true)}>✕ Cancel Request</button>
                         )}
                     </>
                 )}
@@ -301,24 +261,15 @@ const MisuseWarning = ({ onAccept }) => (
                 <div className="em-warning-list">
                     <div className="em-warning-item danger">
                         <span>🚫</span>
-                        <div>
-                            <strong>Misuse is a serious criminal offence</strong>
-                            <p>Prank calls, false reports, or testing this system diverts real resources from people in danger.</p>
-                        </div>
+                        <div><strong>Misuse is a serious criminal offence</strong><p>Prank calls, false reports, or testing this system diverts real resources from people in danger.</p></div>
                     </div>
                     <div className="em-warning-item danger">
                         <span>⚖️</span>
-                        <div>
-                            <strong>Legal consequences</strong>
-                            <p>False emergency reports can result in arrest, prosecution, heavy fines, and imprisonment under Sri Lankan law.</p>
-                        </div>
+                        <div><strong>Legal consequences</strong><p>False emergency reports can result in arrest, prosecution, heavy fines, and imprisonment under Sri Lankan law.</p></div>
                     </div>
                     <div className="em-warning-item danger">
                         <span>📍</span>
-                        <div>
-                            <strong>You are being tracked</strong>
-                            <p>All requests are logged with your phone number, location, and timestamp. Misuse will be reported to authorities.</p>
-                        </div>
+                        <div><strong>You are being tracked</strong><p>All requests are logged with your phone number, location, and timestamp. Misuse will be reported to authorities.</p></div>
                     </div>
                 </div>
                 <p className="em-warning-confirm">By continuing, you confirm this is a <strong>real emergency</strong>.</p>
@@ -364,13 +315,7 @@ const RequestLookup = ({ onFound, onBack }) => {
                 <p>Enter your phone number or reference number to track an existing emergency request from any device.</p>
                 <div className="em-field">
                     <label>Phone number or Reference (e.g. EM-2025-123456)</label>
-                    <input
-                        type="text"
-                        placeholder="0711234567 or EM-2025-123456"
-                        value={input}
-                        onChange={e => setInput(e.target.value)}
-                        onKeyDown={e => e.key === 'Enter' && handleLookup()}
-                    />
+                    <input type="text" placeholder="0711234567 or EM-2025-123456" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLookup()} />
                 </div>
                 {error && <p className="em-error">{error}</p>}
                 <button className="em-submit-btn" style={{ background: '#042C53' }} onClick={handleLookup} disabled={loading || !input.trim()}>
@@ -385,7 +330,6 @@ const RequestLookup = ({ onFound, onBack }) => {
    MAIN COMPONENT
 ───────────────────────────────────────────── */
 const Emergency = () => {
-    // view: 'loading' | 'warning' | 'select' | 'form' | 'tracking' | 'lookup'
     const [view, setView] = useState('loading');
     const [activeRequest, setActiveRequest] = useState(null);
     const [selectedService, setSelectedService] = useState(null);
@@ -394,7 +338,6 @@ const Emergency = () => {
     const handleLocationChange = useCallback((val) => setLocation(val), []);
     const pollRef = useRef(null);
 
-    /* ── On mount: check localStorage for active request ── */
     useEffect(() => {
         document.title = 'Emergency - Public Problem Reporting System';
         const saved = localStorage.getItem(STORAGE_KEY);
@@ -409,7 +352,6 @@ const Emergency = () => {
         }
     }, []);
 
-    /* ── Animate sections on view change ── */
     useEffect(() => {
         setTimeout(() => {
             document.querySelectorAll('.em-animate').forEach((el, i) => {
@@ -419,7 +361,6 @@ const Emergency = () => {
         }, 50);
     }, [view]);
 
-    /* ── Poll status when tracking ── */
     const fetchStatus = useCallback(async () => {
         if (!activeRequest?.id) return;
         try {
@@ -429,13 +370,10 @@ const Emergency = () => {
             const updated = { ...activeRequest, status: data.status };
             setActiveRequest(updated);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-            if (data.status === 'resolved') {
-                clearInterval(pollRef.current);
-            }
-        } catch { /* network error — will retry */ }
+            if (data.status === 'resolved') clearInterval(pollRef.current);
+        } catch { }
     }, [activeRequest]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (view === 'tracking' && activeRequest?.status !== 'resolved') {
             fetchStatus();
@@ -444,7 +382,6 @@ const Emergency = () => {
         return () => clearInterval(pollRef.current);
     }, [view, activeRequest?.id]);
 
-    /* ── Submit handler ── */
     const handleSubmit = async () => {
         if (!phone || !location) return;
         try {
@@ -465,30 +402,24 @@ const Emergency = () => {
         } catch { alert('Server error. Please try again.'); }
     };
 
-    /* ── Dismiss resolved request ── */
     const handleDismiss = () => {
         localStorage.removeItem(STORAGE_KEY);
         clearInterval(pollRef.current);
-        setActiveRequest(null);
-        setSelectedService(null);
+        setActiveRequest(null); setSelectedService(null);
         setPhone(''); setLocation('');
         setView('warning');
     };
 
-    /* ── Cancel pending request ── */
     const handleCancel = () => {
         localStorage.removeItem(STORAGE_KEY);
         clearInterval(pollRef.current);
-        setActiveRequest(null);
-        setSelectedService(null);
+        setActiveRequest(null); setSelectedService(null);
         setPhone(''); setLocation('');
         setView('warning');
     };
 
     return (
         <div className="em-root">
-
-            {/* HERO — always visible */}
             <section className="em-hero em-animate">
                 <div className="em-hero-overlay" />
                 <div className="em-hero-content">
@@ -503,7 +434,6 @@ const Emergency = () => {
                 </div>
             </section>
 
-            {/* ANTI-MISUSE WARNING */}
             {view === 'warning' && (
                 <>
                     <MisuseWarning onAccept={() => setView('select')} />
@@ -515,7 +445,6 @@ const Emergency = () => {
                 </>
             )}
 
-            {/* CROSS-DEVICE LOOKUP */}
             {view === 'lookup' && (
                 <RequestLookup
                     onFound={req => { setActiveRequest({ id: req._id, referenceNumber: req.referenceNumber, serviceType: req.serviceType, phone: req.phone, location: req.location, status: req.status }); setView('tracking'); }}
@@ -523,7 +452,6 @@ const Emergency = () => {
                 />
             )}
 
-            {/* SERVICE SELECTION */}
             {view === 'select' && (
                 <section className="em-select em-animate">
                     <h2>Select Emergency Type</h2>
@@ -541,13 +469,10 @@ const Emergency = () => {
                 </section>
             )}
 
-            {/* REQUEST FORM */}
             {view === 'form' && selectedService && (
                 <section className="em-form-section em-animate">
                     <div className="em-form-wrap">
-                        <button className="em-back-btn" onClick={() => { setSelectedService(null); setLocation(''); setPhone(''); setView('select'); }}>
-                            ← Change Service
-                        </button>
+                        <button className="em-back-btn" onClick={() => { setSelectedService(null); setLocation(''); setPhone(''); setView('select'); }}>← Change Service</button>
                         <div className="em-selected-badge" style={{ '--em-color': selectedService.color }}>
                             <span>{selectedService.icon}</span>
                             <div><h3>{selectedService.title}</h3><p>Hotline: {selectedService.hotline}</p></div>
@@ -576,15 +501,9 @@ const Emergency = () => {
                 </section>
             )}
 
-            {/* STATUS TRACKING */}
             {view === 'tracking' && activeRequest && (
-                <StatusTracker
-                    request={activeRequest}
-                    onDismiss={handleDismiss}
-                    onCancel={handleCancel}
-                />
+                <StatusTracker request={activeRequest} onDismiss={handleDismiss} onCancel={handleCancel} />
             )}
-
         </div>
     );
 };

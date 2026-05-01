@@ -1,72 +1,34 @@
 import express from "express";
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 
 const router = express.Router();
 
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error("GEMINI_API_KEY is missing in environment variables");
-}
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
-
-const systemInstruction = `
-You are the Civic Portal Assistant for Sri Lanka.
-
-Your job is to help users with Sri Lankan public civil matters and infrastructure issues, including:
-- roads
-- drainage
-- water supply
-- electricity/public utilities
-- waste management
-- public transport
-- bridges
-- floods
-- street lights
-- public buildings
-- infrastructure complaints
-- local government/public service issues
-
-You may also answer questions about what this assistant/system does.
-
-If the user asks what this system is, explain:
-"This is a Civic Portal Assistant that helps people report, understand, and get guidance about Sri Lankan public infrastructure and civil service issues."
-
-If the user asks unrelated general questions, reply exactly:
-"I am sorry, I can only assist with civil matters related to Sri Lankan public infrastructure and services."
-`;
+const systemInstruction = `You are the Civic Portal Assistant for Sri Lanka. Help users with Sri Lankan public civil matters and infrastructure issues including roads, drainage, water supply, electricity, waste management, public transport, bridges, floods, street lights, public buildings, infrastructure complaints and local government issues. If asked unrelated questions reply: "I am sorry, I can only assist with civil matters related to Sri Lankan public infrastructure and services."`;
 
 router.post("/", async (req, res) => {
   try {
     const { message } = req.body;
 
     if (!message || typeof message !== "string" || message.trim().length === 0) {
-      return res.status(400).json({
-        text: "Message is required",
-      });
+      return res.status(400).json({ text: "Message is required" });
     }
 
-    const chat = ai.chats.create({
-      model: "gemini-3.1-flash-lite-preview",
-      config: {
-        systemInstruction,
-      },
+    const response = await client.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        { role: "system", content: systemInstruction },
+        { role: "user", content: message.trim() }
+      ],
     });
 
-    const response = await chat.sendMessage({
-      message: message.trim(),
-    });
+    const text = response.choices[0]?.message?.content || "No response generated";
+    return res.json({ text });
 
-    return res.json({
-      text: response.text || "No response generated",
-    });
   } catch (err) {
-    console.error("Gemini route error:", err);
-
-    return res.status(500).json({
-      text: "Server error",
-    });
+    console.error("Groq route error:", err);
+    return res.status(500).json({ text: "Server error" });
   }
 });
 

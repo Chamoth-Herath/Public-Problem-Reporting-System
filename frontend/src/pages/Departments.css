@@ -202,7 +202,161 @@
 
     .report-link  { font-size: 0.72rem; padding: 5px 12px; }
 }
+/* ── Add these to the bottom of DepartmentPage.css ── */
 
+/* Auto-fill banner */
+.modal-autofill-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #eef4fb;
+    border-left: 3px solid #185FA5;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: #2c3e50;
+    margin-bottom: 16px;
+}
+
+/* Location toggle buttons */
+.modal-location-btns {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.modal-loc-btn {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #d0dae6;
+    background: #f8fafc;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    color: #6b7a8d;
+}
+
+.modal-loc-btn.active {
+    border-color: #185FA5;
+    background: #eef4fb;
+    color: #185FA5;
+    font-weight: 600;
+}
+
+.modal-loc-btn:hover:not(.active) {
+    border-color: #b0c4d8;
+    background: #f1f5f9;
+}
+
+/* Location display */
+.modal-location-display {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    background: #eef4fb;
+    border: 1.5px solid #c5d9ef;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    color: #2c3e50;
+    line-height: 1.5;
+}
+
+/* Map wrap in modal */
+.modal-map-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Upload area */
+.modal-upload {
+    border: 2px dashed #b0c4d8;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f8fafc;
+    min-height: 90px;
+    text-align: center;
+}
+
+.modal-upload:hover {
+    border-color: #185FA5;
+    background: #eef4fb;
+}
+
+.modal-upload p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #185FA5;
+    font-weight: 600;
+}
+
+.modal-upload small {
+    color: #8a9ab0;
+    font-size: 0.75rem;
+}
+
+/* Image previews */
+.modal-image-previews {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.modal-img-thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1.5px solid #d0dae6;
+}
+
+/* Error messages in modal fields */
+.modal-field--error input,
+.modal-field--error textarea,
+.modal-field--error select {
+    border-color: #e74c3c !important;
+}
+
+.modal-error {
+    font-size: 0.78rem;
+    color: #e74c3c;
+    margin-top: 4px;
+    display: block;
+}
+
+.modal-submit-error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+/* Status location */
+.status-location {
+    font-size: 0.78rem;
+    color: #6b7a8d;
+    margin: 2px 0 6px;
+}
+
+/* Priority colors */
+.priority-low { color: #1D9E75; background: #d4f5ec; }
+.priority-medium { color: #e6a817; background: #fff3cd; }
+.priority-high { color: #e63946; background: #fde8ea; }
+.priority-critical { color: #fff; background: #e63946; }
 /* ══════════════════════════════════════════════════════════════
    SMALL PHONES  ≤ 480px
 ══════════════════════════════════════════════════════════════ */
