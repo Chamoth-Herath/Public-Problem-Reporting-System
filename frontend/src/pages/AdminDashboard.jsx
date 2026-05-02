@@ -171,7 +171,7 @@ const Overview = ({ stats, complaints, setPage }) => {
    USERS PAGE
 ═══════════════════════════════════════════════ */
 const EMPTY_USER = { name:'', email:'', password:'', role:'agent', department:'', phone:'', status:'Active' };
-const DEPT_NAMES = ['Water Supply','Electricity','Garbage & Sanitation','Health','Police','Agriculture','Education','Roads & Highways'];
+const DEPT_NAMES = ['Water Supply','Electricity','Garbage & Sanitation','Health','Police','Fire & Rescue','Agriculture','Education','Roads & Highways'];
 
 const Users = ({ departments }) => {
     const [users, setUsers]   = useState([]);
@@ -266,7 +266,7 @@ const Users = ({ departments }) => {
                            <tr key={u._id}>
                                <TD><strong style={{color:'#e8eaf0',fontWeight:500}}>{u.name}</strong></TD>
                                <TD>{u.email}</TD>
-                               <TD><Badge label={u.role} type={u.role==='admin'?'red':'blue'} /></TD>
+                               <TD><Badge label={u.role} type={u.role==='citizen'?'green':'blue'} /></TD>
                                <TD>{u.department || '—'}</TD>
                                <TD>{u.phone || '—'}</TD>
                                <TD>{statusBadge(u.status)}</TD>
@@ -300,7 +300,7 @@ const Users = ({ departments }) => {
                         <Field label="Role *">
                             <select name="role" value={form.role} onChange={set} style={{background:'#0f1117',border:'1px solid rgba(255,255,255,0.07)',borderRadius:6,padding:'8px 12px',color:'#e8eaf0',width:'100%',fontSize:'0.875rem'}}>
                                 <option value="agent">Agent</option>
-                                <option value="admin">Admin</option>
+                                <option value="citizen">Citizen</option>
                             </select>
                         </Field>
                         <Field label="Status">

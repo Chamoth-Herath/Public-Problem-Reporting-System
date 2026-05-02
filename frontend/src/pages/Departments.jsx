@@ -40,6 +40,13 @@ const departments = [
         color: '#5f6b7a'
     },
     {
+        icon: '🚒',
+        title: 'Fire & Rescue',
+        brief: 'Report fire emergencies, rescue situations and fire hazards to the Sri Lanka Fire & Rescue Services.',
+        path: '/report/fire',
+        color: '#f97316'
+    },
+    {
         icon: '🌾',
         title: 'Agriculture',
         brief: 'Report crop diseases, irrigation failures, pest outbreaks and farming infrastructure issues to the Ministry of Agriculture.',

@@ -1,9 +1,10 @@
 import express from "express";
 import Groq from "groq-sdk";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
-
-const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 const systemInstruction = `You are the Civic Portal Assistant for Sri Lanka. Help users with Sri Lankan public civil matters and infrastructure issues including roads, drainage, water supply, electricity, waste management, public transport, bridges, floods, street lights, public buildings, infrastructure complaints and local government issues. If asked unrelated questions reply: "I am sorry, I can only assist with civil matters related to Sri Lankan public infrastructure and services."`;
 
@@ -15,7 +16,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ text: "Message is required" });
     }
 
-    const response = await client.chat.completions.create({
+    const response = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       messages: [
         { role: "system", content: systemInstruction },

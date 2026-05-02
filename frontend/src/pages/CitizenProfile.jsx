@@ -3,6 +3,7 @@ import { useUser } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 import './CitizenProfile.css';
 
+
 const ProfileMapPicker = ({ onSelect }) => {
     const containerRef = useRef(null);
     const mapRef = useRef(null);

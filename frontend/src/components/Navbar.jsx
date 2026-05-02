@@ -3,6 +3,7 @@ import emblem from '../assets/emblem.png';
 import './Navbar.css';
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUser, useClerk } from '@clerk/clerk-react';
+import { requestNotificationPermission, showNotification } from '../services/notifications';
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -52,6 +53,36 @@ const Navbar = () => {
             document.body.style.overflowY = '';
         };
     }, [menuOpen]);
+
+    useEffect(() => {
+        if (!isSignedIn || !user || role !== 'citizen') return;
+
+        requestNotificationPermission();
+
+        let prevStatuses = {};
+
+        const pollComplaints = async () => {
+            try {
+                const res = await fetch(`http://localhost:5000/api/complaints/user/${user.id}`);
+                if (!res.ok) return;
+                const complaints = await res.json();
+                complaints.forEach(c => {
+                    const prev = prevStatuses[c._id];
+                    if (prev && prev !== c.status) {
+                        showNotification(
+                            `Complaint Updated — ${c.complaintId}`,
+                            `"${c.title}" status changed to ${c.status}`
+                        );
+                    }
+                    prevStatuses[c._id] = c.status;
+                });
+            } catch(e) {}
+        };
+
+        pollComplaints();
+        const interval = setInterval(pollComplaints, 20000);
+        return () => clearInterval(interval);
+    }, [isSignedIn, user, role]);
 
     const toggleMenu = () => setMenuOpen(prev => !prev);
     const closeMenu  = () => setMenuOpen(false);

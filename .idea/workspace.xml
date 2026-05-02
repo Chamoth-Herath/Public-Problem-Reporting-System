@@ -2,56 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a5a763-a95c-4aa1-a398-4639bab4c944" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/api/adminComplaints.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/api/gallery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/api/profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/api/setup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/api/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/application/complaint.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/application/department.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/application/profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/application/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/domain/complaint.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/domain/department.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/domain/profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/domain/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ProfileGuard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/lib/api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/lib/store.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/chatApi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/api/chatMessages.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/domain/chatMessage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/sw.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/services/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/services/socket.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/api/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/report.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/domain/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/domain/report.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/domain/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/domain/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Lib/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/complaint.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Lib/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/department.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Chat.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/DepartmentPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DepartmentPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Departments.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Departments.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Emergency.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Emergency.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ForgotPasswordPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ForgotPasswordPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Gallery.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Gallery.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Gallery.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Gallery.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/LoginPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/LoginPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/RegisterPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/RegisterPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Departments.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Departments.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,6 +122,9 @@
       <workItem from="1777610895128" duration="3721000" />
       <workItem from="1777614798307" duration="15907000" />
       <workItem from="1777634833344" duration="12339000" />
+      <workItem from="1777667642446" duration="8067000" />
+      <workItem from="1777675847615" duration="6824000" />
+      <workItem from="1777684894485" duration="3984000" />
     </task>
     <servers />
   </component>

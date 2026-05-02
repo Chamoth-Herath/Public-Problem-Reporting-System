@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUser } from '@clerk/clerk-react';
 import './DepartmentPage.css';
-
+import { requestNotificationPermission, showNotification } from '../services/notifications';
 
 
 /* ─────────────────────────────────────────────
@@ -83,6 +83,21 @@ const DEPT_DATA = {
     osmQuery: 'police station',
     stats: [{ label: 'Officers', value: '85,000+' }, { label: 'Stations', value: '500+' }, { label: 'Districts', value: '25' }],
     image: 'https://images.unsplash.com/photo-1566438480900-0609be27a4be?w=800&q=80',
+  },
+  fire: {
+    key: 'fire', icon: '🚒',
+    title: 'Sri Lanka Fire & Rescue Services',
+    shortTitle: 'Fire & Rescue',
+    tagline: 'Protecting Lives & Property',
+    accentColor: '#f97316', lightColor: '#ffe8d6',
+    description: 'The Sri Lanka Fire & Rescue Services responds to fire emergencies, rescue operations, hazardous material incidents and disaster relief operations across the island. Operating under the Ministry of Public Security, fire stations are maintained in all major districts.',
+    services: ['Fire outbreaks & structural fires', 'Road accident rescues', 'Chemical & gas leak emergencies', 'Flood & disaster rescue', 'Collapsed building rescues', 'Forest & wildfire control'],
+    hotline: '111', email: 'info@fire.gov.lk', website: 'www.firerescue.gov.lk',
+    address: 'Fire Brigade Headquarters, Colombo 2',
+    workingHours: '24 Hours / 7 Days',
+    osmQuery: 'fire station Sri Lanka',
+    stats: [{ label: 'Fire Stations', value: '200+' }, { label: 'Districts', value: '25' }, { label: 'Response', value: '<8 min' }],
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
   },
   agriculture: {
     key: 'agriculture', icon: '🌾',
@@ -814,8 +829,25 @@ const ComplaintModal = ({ data, profile, user, onClose, onProfileRedirect }) => 
 ───────────────────────────────────────────── */
 const StatusModal = ({ user, category, deptIcon, statusColor, onClose }) => {
   const [complaints, setComplaints] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [loading, setLoading]       = useState(true);
+  const [search, setSearch]         = useState('');
+  const [prevStatuses, setPrevStatuses] = useState({});
+
+  // Request notification permission on open
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  const showNotification = (title, body) => {
+    if (Notification.permission !== 'granted') return;
+    const n = new Notification(title, {
+      body,
+      icon: '/logo192.png',
+    });
+    n.onclick = () => { window.focus(); n.close(); };
+  };
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -823,11 +855,34 @@ const StatusModal = ({ user, category, deptIcon, statusColor, onClose }) => {
         const res = await fetch(
             `http://localhost:5000/api/complaints/user/${user.id}/category/${encodeURIComponent(category)}`
         );
-        if (res.ok) setComplaints(await res.json());
+        if (res.ok) {
+          const data = await res.json();
+
+          // Check for status changes and fire notifications
+          data.forEach(c => {
+            const prev = prevStatuses[c._id];
+            if (prev && prev !== c.status) {
+              showNotification(
+                  `Complaint Updated — ${c.complaintId}`,
+                  `"${c.title}" is now ${c.status}`
+              );
+            }
+          });
+
+          // Save current statuses
+          const statMap = {};
+          data.forEach(c => { statMap[c._id] = c.status; });
+          setPrevStatuses(statMap);
+
+          setComplaints(data);
+        }
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
     };
+
     fetchComplaints();
+    const interval = setInterval(fetchComplaints, 15000);
+    return () => clearInterval(interval);
   }, [user.id, category]);
 
   const filtered = complaints.filter(c =>
@@ -915,6 +970,10 @@ const StatusModal = ({ user, category, deptIcon, statusColor, onClose }) => {
                 ))
             )}
           </div>
+
+          <p style={{fontSize:11,color:'#4a5568',textAlign:'center',marginTop:12}}>
+            🔄 Auto-refreshes every 15 seconds
+          </p>
         </div>
       </div>
   );
