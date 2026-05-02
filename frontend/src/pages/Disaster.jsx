@@ -47,6 +47,7 @@ const DisasterMap = ({ onLocationSelect, selectedType }) => {
         const boot = () => {
             if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; }
             if (!containerRef.current) return;
+            delete containerRef.current._leaflet_id;
 
             const L = window.L;
 
@@ -244,10 +245,32 @@ const Disaster = () => {
         setForm({ ...form, [e.target.name]: val });
     };
 
-    const handleSubmit = () => {
-        // TODO: Connect to backend
-        // await axios.post('/api/disaster', { ...form, type: selectedType, severity, location: markedLocation });
-        setSubmitted(true);
+    const handleSubmit = async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/disaster', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type:           selectedType,        // ← send the whole object, not selectedType.label
+                    severity,
+                    location:       markedLocation,
+                    name:           form.name,           // ← name not reporterName
+                    phone:          form.phone,
+                    description:    form.description,
+                    affectedPeople: form.affectedPeople,
+                    isRedZone:      form.isRedZone,
+                })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                refNum.current = data.refNumber || refNum.current;
+                setSubmitted(true);
+            } else {
+                alert('Failed: ' + data.message);
+            }
+        } catch (err) {
+            alert('Server error. Is backend running?');
+        }
     };
 
     const resetForm = () => {

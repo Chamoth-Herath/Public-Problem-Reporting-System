@@ -77,6 +77,12 @@
 }
 
 /* Search bar */
+.hero-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.hero-search-input::-webkit-input-placeholder { color: rgba(255, 255, 255, 0.7); }
+.hero-search-input::-moz-placeholder          { color: rgba(255, 255, 255, 0.7); }
+.hero-search-input::placeholder               { color: rgba(255, 255, 255, 0.7); }
 .hero-search {
     display: flex;
     max-width: 480px;
@@ -115,6 +121,7 @@
 
 /* Badges */
 .hero-badges {
+    margin-top: 30px;
     display: flex;
     justify-content: center;
     gap: 10px;

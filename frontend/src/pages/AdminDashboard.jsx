@@ -650,8 +650,190 @@ const NAV = [
     {id:'users',        icon:'👥', label:'Users'},
     {id:'departments',  icon:'🏛️', label:'Departments'},
     {id:'complaints',   icon:'📋', label:'Complaints'},
+    {id:'disasters',    icon:'🌊', label:'Disasters'},
 ];
+const Disasters = () => {
+    const [reports, setReports]       = useState([]);
+    const [loading, setLoading]       = useState(true);
+    const [filter, setFilter]         = useState('All');
+    const [search, setSearch]         = useState('');
+    const [sel, setSel]               = useState(null);
+    const [agents, setAgents]         = useState([]);
+    const [assignId, setAssignId]     = useState('');
+    const [assignName, setAssignName] = useState('');
+    const [saving, setSaving]         = useState(false);
 
+    const fetchReports = async () => {
+        try {
+            const res  = await fetch(`${API}/disaster`);
+            const data = await res.json();
+            setReports(Array.isArray(data) ? data : data.reports || []);
+        } catch { }
+        setLoading(false);
+    };
+
+    const fetchDisasterAgents = async () => {
+        try {
+            const res  = await fetch(`${API}/users?department=Disaster%20Management`);
+            const data = await res.json();
+            setAgents(data.filter(a => a.status === 'Active'));
+        } catch { setAgents([]); }
+    };
+
+    useEffect(() => { fetchReports(); }, []);
+
+    const tabs   = ['All', 'Pending', 'Assigned', 'Resolved'];
+    const counts = Object.fromEntries(
+        tabs.map(t => [t, t === 'All' ? reports.length : reports.filter(r => r.status === t).length])
+    );
+
+    const filtered = reports.filter(r => {
+        const ms = filter === 'All' || r.status === filter;
+        const mq = !search ||
+            r.refNumber?.toLowerCase().includes(search.toLowerCase()) ||
+            r.disasterType?.toLowerCase().includes(search.toLowerCase()) ||
+            r.reporterName?.toLowerCase().includes(search.toLowerCase());
+        return ms && mq;
+    });
+
+    const typeIcon = {
+        flood:'🌊', landslide:'⛰️', fire:'🔥', drought:'☀️',
+        cyclone:'🌀', earthquake:'🏚️', tsunami:'🌋', other:'⚠️',
+    };
+
+    const assign = async () => {
+        if (!assignId) return;
+        setSaving(true);
+        try {
+            const res = await fetch(`${API}/disaster/${sel._id}/assign`, {
+                method:  'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ agentId: assignId, agentName: assignName }),
+            });
+            if (res.ok) { fetchReports(); close(); }
+        } catch { }
+        setSaving(false);
+    };
+
+    const close = () => { setSel(null); setAssignId(''); setAssignName(''); };
+    const openReview = (r) => { setSel(r); fetchDisasterAgents(); };
+
+    return (
+        <div>
+            <PageHeader title="Disaster Management" sub="Review disaster reports and assign to Disaster Management agents" />
+
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(150px,1fr))',gap:12,marginBottom:22}}>
+                {[
+                    {label:'Total',    val:reports.length,                                  color:'#60a5fa'},
+                    {label:'Pending',  val:reports.filter(r=>r.status==='Pending').length,  color:'#fbbf24'},
+                    {label:'Assigned', val:reports.filter(r=>r.status==='Assigned').length, color:'#fb923c'},
+                    {label:'Resolved', val:reports.filter(r=>r.status==='Resolved').length, color:'#34d399'},
+                ].map((s,i) => (
+                    <div key={i} style={{background:'#1a1e28',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,padding:'14px 18px'}}>
+                        <div style={{fontSize:'1.6rem',fontWeight:700,color:s.color,fontFamily:'IBM Plex Mono,monospace',lineHeight:1}}>{s.val}</div>
+                        <div style={{fontSize:'0.68rem',color:'#4a5568',textTransform:'uppercase',letterSpacing:'0.06em',marginTop:4}}>{s.label}</div>
+                    </div>
+                ))}
+            </div>
+
+            <FilterTabs tabs={tabs} active={filter} setActive={setFilter} counts={counts} accent="#e74c3c" />
+
+            <div style={{marginBottom:18}}>
+                <input
+                    style={{width:320,background:'#0f1117',border:'1px solid rgba(255,255,255,0.07)',borderRadius:6,padding:'7px 12px',color:'#e8eaf0',fontSize:'0.875rem'}}
+                    placeholder="Search ref, type or reporter…"
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
+            </div>
+
+            {loading ? <EmptyState icon="⏳" text="Loading disaster reports…" /> :
+                <Table
+                    cols={['Ref','Type','Severity','Reporter','Location','Red Zone','Status','Date','Action']}
+                    rows={filtered.map(r => (
+                        <tr key={r._id}>
+                            <TD mono>{r.refNumber}</TD>
+                            <TD>
+                                <span style={{display:'flex',alignItems:'center',gap:5}}>
+                                    <span>{typeIcon[r.disasterType?.toLowerCase()] || '⚠️'}</span>
+                                    <span style={{color:'#e8eaf0'}}>{r.disasterType}</span>
+                                </span>
+                            </TD>
+                            <TD>{priorityBadge(r.severity)}</TD>
+                            <TD><span style={{color:'#e8eaf0'}}>{r.reporterName}</span></TD>
+                            <TD><span style={{fontSize:'0.78rem'}}>{(r.location?.address || r.location)?.substring(0,35)}{(r.location?.address || r.location)?.length > 35 ? '…' : ''}</span></TD>
+                            <TD>{r.isRedZone ? <Badge label="🔴 Red Zone" type="red" /> : <span style={{color:'#4a5568',fontSize:'0.78rem'}}>—</span>}</TD>
+                            <TD>{statusBadge(r.status)}</TD>
+                            <TD nowrap><span style={{fontSize:'0.78rem'}}>{new Date(r.submittedAt || r.createdAt).toLocaleDateString()}</span></TD>
+                            <TD><Btn size="sm" variant="primary" onClick={() => openReview(r)}>Review</Btn></TD>
+                        </tr>
+                    ))}
+                    empty="No disaster reports found"
+                />
+            }
+
+            {sel && (
+                <Modal onClose={close} wide>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:4}}>
+                        <h2 style={{color:'#e8eaf0'}}>{typeIcon[sel.disasterType?.toLowerCase()]||'⚠️'} Disaster Report Review</h2>
+                        {statusBadge(sel.status)}
+                    </div>
+                    <p style={{color:'#8892a4',fontSize:'0.82rem',marginBottom:18}}>{sel.refNumber} · Submitted {new Date(sel.submittedAt||sel.createdAt).toLocaleDateString()}</p>
+
+                    {sel.isRedZone && (
+                        <div style={{background:'rgba(231,76,60,0.12)',border:'1px solid rgba(231,76,60,0.35)',borderRadius:8,padding:'10px 14px',marginBottom:16,color:'#f87171',fontSize:'0.85rem',fontWeight:600}}>
+                            🔴 RED ZONE — Immediate evacuation required
+                        </div>
+                    )}
+
+                    <div style={{background:'#0f1117',borderRadius:6,padding:14,marginBottom:16}}>
+                        {[
+                            ['Disaster Type', `${typeIcon[sel.disasterType?.toLowerCase()]||'⚠️'} ${sel.disasterType}`],
+                            ['Severity',      sel.severity],
+                            ['Reporter',      sel.reporterName],
+                            ['Phone',         sel.phone],
+                            ['Affected',      sel.affectedPeople || '—'],
+                            ['Location',      sel.location?.address || sel.location],
+                            sel.agentName && ['Assigned To', sel.agentName],
+                        ].filter(Boolean).map(([k,v]) => <DetailRow key={k} k={k} v={v} />)}
+                    </div>
+
+                    <p style={{fontSize:'0.72rem',color:'#4a5568',textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:8}}>Description</p>
+                    <div style={{background:'rgba(181,212,244,0.05)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:6,padding:14,fontSize:'0.875rem',color:'#e8eaf0',lineHeight:1.75,marginBottom:16}}>{sel.description}</div>
+
+                    {sel.status !== 'Resolved' && (
+                        <div style={{borderTop:'1px solid rgba(255,255,255,0.07)',paddingTop:18,marginTop:4}}>
+                            <p style={{fontSize:'0.85rem',fontWeight:600,color:'#e8eaf0',marginBottom:14}}>🎯 Assign to Disaster Management Agent</p>
+                            <Field label="Select agent from Disaster Management">
+                                <select value={assignId}
+                                        onChange={e=>{setAssignId(e.target.value);setAssignName(agents.find(a=>a._id===e.target.value)?.name||'')}}
+                                        style={{background:'#0f1117',border:'1px solid rgba(255,255,255,0.07)',borderRadius:6,padding:'8px 12px',color:'#e8eaf0',width:'100%',fontSize:'0.875rem'}}>
+                                    <option value="">— Select agent —</option>
+                                    {agents.map(a=><option key={a._id} value={a._id}>{a.name} ({a.email})</option>)}
+                                </select>
+                            </Field>
+                            {agents.length === 0 && (
+                                <p style={{fontSize:'0.78rem',color:'#f87171',marginBottom:12}}>
+                                    ⚠️ No active agents in Disaster Management. Add one via User Management.
+                                </p>
+                            )}
+                            <div style={{display:'flex',gap:10,marginTop:8}}>
+                                <Btn variant="ghost" onClick={close} style={{flex:1}}>Close</Btn>
+                                <Btn variant="primary" onClick={assign} disabled={!assignId||saving}
+                                     style={{flex:1,background:'#e74c3c',boxShadow:'0 3px 12px rgba(231,76,60,0.28)'}}>
+                                    {saving?'Assigning…':'🚨 Assign to Agent'}
+                                </Btn>
+                            </div>
+                        </div>
+                    )}
+                    {sel.status === 'Resolved' && (
+                        <Btn variant="ghost" onClick={close} style={{width:'100%',marginTop:14}}>Close</Btn>
+                    )}
+                </Modal>
+            )}
+        </div>
+    );
+};
 const Sidebar = ({ page, setPage, open, setOpen }) => (
     <aside style={{position:'fixed',left:0,top:0,bottom:0,width:open?240:64,background:'#13161e',borderRight:'1px solid rgba(255,255,255,0.07)',display:'flex',flexDirection:'column',zIndex:100,transition:'width .3s ease',overflow:'hidden'}}>
         <div style={{display:'flex',alignItems:'center',gap:10,padding:'22px 18px 18px',borderBottom:'1px solid rgba(255,255,255,0.07)',flexShrink:0}}>
@@ -733,6 +915,7 @@ export default function AdminDashboard() {
         users:       <Users departments={depts} />,
         departments: <Departments depts={depts} fetchDepts={fetchDepts} />,
         complaints:  <Complaints depts={depts} />,
+        disasters:   <Disasters />,
     };
 
     return (

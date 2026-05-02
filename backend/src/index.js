@@ -22,6 +22,8 @@ import chatRouter from './api/chat.js';
 import setupRouter from './api/setup.js';
 import ChatMessage from './domain/chatMessage.js';
 import chatMessagesRouter from './api/chatMessages.js';
+import searchRouter from './api/search.js';
+import disasterRoutes from './api/disaster.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,7 +53,8 @@ app.use('/api/gallery', galleryRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/setup', setupRouter);
 app.use('/api/messages', chatMessagesRouter);
-
+app.use('/api/search', searchRouter);
+app.use('/api/disaster', disasterRoutes);
 // ── In-memory chat store ──
 const chatRooms = {};
 const onlineAgents = {};

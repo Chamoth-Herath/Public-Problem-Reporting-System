@@ -2,30 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a5a763-a95c-4aa1-a398-4639bab4c944" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/api/chatMessages.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/domain/chatMessage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/sw.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/notifications.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/socket.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/api/disaster.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/api/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/application/disaster.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/domain/disaster.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/services/disasterService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/chat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/report.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/domain/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/domain/report.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/domain/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/domain/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Chat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AgentDashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DepartmentPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DepartmentPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Departments.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Departments.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Disaster.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Disaster.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +113,10 @@
       <workItem from="1777634833344" duration="12339000" />
       <workItem from="1777667642446" duration="8067000" />
       <workItem from="1777675847615" duration="6824000" />
-      <workItem from="1777684894485" duration="3984000" />
+      <workItem from="1777684894485" duration="8926000" />
+      <workItem from="1777718748880" duration="1217000" />
+      <workItem from="1777727899415" duration="1795000" />
+      <workItem from="1777729848663" duration="1203000" />
     </task>
     <servers />
   </component>
