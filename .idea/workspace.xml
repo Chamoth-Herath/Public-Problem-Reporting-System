@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a5a763-a95c-4aa1-a398-4639bab4c944" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/api/disaster.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/api/search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/application/disaster.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/domain/disaster.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/disasterService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/CitizenProfile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Disaster.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Disaster.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +104,7 @@
       <workItem from="1777684894485" duration="8926000" />
       <workItem from="1777718748880" duration="1217000" />
       <workItem from="1777727899415" duration="1795000" />
-      <workItem from="1777729848663" duration="1203000" />
+      <workItem from="1777729848663" duration="2009000" />
     </task>
     <servers />
   </component>
